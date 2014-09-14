@@ -1,0 +1,15 @@
+.welcome
+  %ul
+    %li
+      %a{:href => "#"}
+        %img{:src => "../images/Welcome_btn.jpg"}/
+      %ul
+        %li{:style => "background: url(../images/change_profile.jpg) no-repeat center top; height: 28px; width:141px;"}
+          %a{:href => "../users/change_profile.php"} Change Profile
+        %li{:style => "background: url(../images/change_password.jpg) no-repeat center top; height: 28px; width:141px;"}
+          %a{:href => "../users/change_password.php"} Change Password
+        %li{:style => "background: url(../images/logout.jpg) no-repeat center top; height: 28px; width:141px;"}
+          %a{:href => "../users/logout.php"} Logout
+  %span.User_Name
+    %a{:name => "Test"} =$_SESSION['name']?>
+  %p Welcome

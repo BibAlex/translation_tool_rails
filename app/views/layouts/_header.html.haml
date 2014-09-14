@@ -1,0 +1,19 @@
+%head
+  %title EOL Translation
+  = stylesheet_link_tag    "application", :media => "all"
+  %meta#ctl00_meta_IE{:content => "IE=8", "http-equiv" => "x-ua-compatible"}/
+  %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+  :javascript
+    function ActiveLink(name)
+    {
+    document.getElementById(name+'_l').className = 'left_side_active';
+    document.getElementById(name+'_r').className = 'right_side_active';
+    document.getElementById(name+'_m').className = 'middle_side_active';
+    /*
+    if (document.getElementById(name+'_sub'))
+    document.getElementById(name+'_sub').style.display='';
+    */
+    }
+    function trim(stringToTrim) {
+    return stringToTrim.replace(/^\s+|\s+$/g,"");
+    }       
