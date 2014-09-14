@@ -3,3 +3,9 @@
 
 en:
   hello: "Hello world"
+  # header: user
+  welcome: "Welcome"
+  change_profile: "Change Profile"
+  change_password: "Change Password"
+  logout: "Logout"
+  
