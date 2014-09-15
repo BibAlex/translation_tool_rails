@@ -9,6 +9,35 @@ en:
   change_profile: "Change Profile"
   change_password: "Change Password"
   logout: "Logout"
+  welcome_message: "Welcome in EOL Translation Workflow"
+  
+  #flash messages
+  flash_error_invalid_username_or_password: "Invalid username or password"
+  
+  #page titles
+  page_title_login: "login"
+  page_title_application_home: "EOL Translation"
+  
+  #static urls
+  url_bibalex: "http://www.bibalex.org"
+  url_eol_bibalex: "eol@bibalex.org"
+  
+  #images
+  image_alt_BA_Logo: "Bibliotheca Alexandrina"
+  
+  #footer
+  footer_copy_right: "Copyright © Bibliotheca Alexandrina (V.1.2), Email:"
+  
+  #tabs titles
+  tab_title_selection: "Selection"
+  tab_title_task_distribution: "Task Distribution"
+  tab_title_translation: "Translation"
+  tab_title_scientific_review: "Scientific Review"
+  tab_title_linguistic_review: "Linguistic Review"
+  tab_title_final_editing: "Final Editing"
+  tab_title_report: "Report"
+  tab_title_users: "Users"
+  
   
   # change profile page
   profile: "Profile"

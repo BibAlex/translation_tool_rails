@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def home
-    @some = "hello"
+    @page_title = I18n.t(:page_title_application_home)
   end
 end
