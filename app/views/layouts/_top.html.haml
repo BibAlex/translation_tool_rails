@@ -3,4 +3,6 @@
     %p Powered by:
     %a{:href => "http://www.bibalex.org", :target => "_blank"}
       %img{:alt => "Bibliotheca Alexandrina", :src => "/images/BA_Logo.png"}/
-  = render :partial => "layouts/user"
+  - if !session[:user_id].nil?
+    = render :partial => "layouts/user"
+= render :partial => "layouts/flash", object: flash

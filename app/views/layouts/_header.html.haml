@@ -1,6 +1,8 @@
 %head
   %title EOL Translation
   = stylesheet_link_tag    "application", :media => "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
   %meta#ctl00_meta_IE{:content => "IE=8", "http-equiv" => "x-ua-compatible"}/
   %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
   :javascript

@@ -6,4 +6,9 @@ class User < ActiveRecord::Base
    validates :email, :presence => true, :format => @email_format_re,
              :uniqueness => { :case_sensitive => false }
    validates :name, :presence => true
+  
+  def self.authenticate(username, password)
+    return nil if username.nil? || password.nil?
+    self.find_by_username_and_password(username, password)
+  end
 end

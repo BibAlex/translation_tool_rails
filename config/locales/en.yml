@@ -17,5 +17,6 @@ en:
   country: "Country:"
   save: "Save"
   changes_saved: "Changes has been saved."
+  access_denied_error: "Access denied."
   
   
