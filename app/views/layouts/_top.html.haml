@@ -1,7 +1,7 @@
 .banner
   .ba_logo
     %p Powered by:
-    %a{:href => "http://www.bibalex.org", :target => "_blank"}
-      %img{:alt => "Bibliotheca Alexandrina", :src => "/images/BA_Logo.png"}/
+    %a{:href => "#{I18n.t(:url_bibalex)}", :target => "_blank"}
+      %img{:alt => "#{I18n.t(:image_alt_BA_Logo)}", :src => "/images/BA_Logo.png"}/
   = render :partial => "layouts/user"
 = render :partial => "layouts/flash", object: flash

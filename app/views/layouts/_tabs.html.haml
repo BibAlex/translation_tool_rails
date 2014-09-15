@@ -5,55 +5,55 @@
         %li
           #select_l.left_side
           #select_m.link_middle
-            %a{:href => "../selection/select.php"} Selection
+            %a{:href => "../selection/select.php"} #{I18n.t(:tab_title_selection)}
           #select_r.right_side
           
       - if session['task_distributor'] == 1
         %li
           #task_l.left_side
           #task_m.link_middle
-            %a{:href => "../task_distribution/pending_species.php"} Task Distribution
+            %a{:href => "../task_distribution/pending_species.php"} #{I18n.t(:tab_title_task_distribution)}
           #task_r.right_side
           
       - if session['translator'] == 1
         %li
           #trans_l.left_side
           #trans_m.link_middle
-            %a{:href => "../list/mylist.php?process=2"} Translation
+            %a{:href => "../list/mylist.php?process=2"} #{I18n.t(:tab_title_translation)}
           #trans_r.right_side
           
       - if session['scientific_reviewer'] == 1
         %li
           #scien_l.left_side
           #scien_m.link_middle
-            %a{:href => "../list/mylist.php?process=3"} Scientific Review
+            %a{:href => "../list/mylist.php?process=3"} #{I18n.t(:tab_title_scientific_review)}
           #scien_r.right_side
           
       - if session['linguistic_reviewer'] == 1
         %li
           #ling_l.left_side
           #ling_m.link_middle
-            %a{:href => "../list/mylist.php?process=4"} Linguistic Review
+            %a{:href => "../list/mylist.php?process=4"} #{I18n.t(:tab_title_linguistic_review)}
           #ling_r.right_side
           
       - if session['final_editor'] == 1
         %li
           #final_l.left_side
           #final_m.link_middle
-            %a{:href => "../list/mylist.php?process=5"} Final Editing
+            %a{:href => "../list/mylist.php?process=5"} #{I18n.t(:tab_title_final_editing)}
           #final_r.right_side
           
       - if session['task_distributor'] == 1
         %li
           #report_l.left_side
           #report_m.link_middle
-            %a{:href => "../report/summary.php"} Report
+            %a{:href => "../report/summary.php"} #{I18n.t(:tab_title_report)}
           #report_r.right_side
           
       - if session['super_admin'] == 1
         %li
           #user_l.left_side
           #user_m.link_middle
-            %a{:href => "../users/index"} Users
+            %a{:href => "../users/index"} #{I18n.t(:tab_title_users)}
           #user_r.right_side
 %div{:style => "clear:both;"} 
