@@ -1,6 +1,7 @@
-class UsersController < ActionController::Base
+class UsersController < ApplicationController
   
   layout 'pages'
+  before_filter :check_authentication, only: [:edit, :update, :change_password, :change_password_attempt]
   
   def new
     @id = 0
@@ -17,12 +18,36 @@ class UsersController < ActionController::Base
     #list of alll users
   end
   
-  def change_password
-    
+  def change_password_attempt
+    @user = User.find(params[:id])
+    if @user.password == params[:old_password]
+      if @user.update_attributes(password: params[:password])
+        flash.now[:notice] = I18n.t(:password_changed)
+      else
+      end
+    else
+      flash.now[:error] = I18n.t(:invalid_old_password)
+    end
+    flash.keep
+    redirect_to :controller => :users, :action => :change_password
   end
   
-  def change_profile
-    
+  def change_password
+  end
+  
+  def edit
+    @user = User.find_by_id(params[:id])
+    @countries = Country.load_all
+  end
+  
+  def update
+    @countries = Country.load_all
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+      flash.now[:notice] = I18n.t("changes_saved")
+    end
+    flash.keep
+    redirect_to :controller => :users, :action => :edit
   end
   
   def login
@@ -48,10 +73,6 @@ class UsersController < ActionController::Base
   end
   
   private
-  
-  def is_logged_in?
-    session[:user_id].nil? ? false : true
-  end
   
   def log_in(user)
     session[:user_id] = user.id

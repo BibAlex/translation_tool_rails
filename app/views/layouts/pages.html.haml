@@ -3,7 +3,7 @@
   %body
     .wrapper
       = render :partial => "layouts/top"  
-      - if !session['user_id'].nil?
+      - if !session[:user_id].nil?
         = render :partial => "layouts/tabs" 
       = yield
       = render :partial => "layouts/footer" 

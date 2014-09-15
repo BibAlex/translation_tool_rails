@@ -5,16 +5,16 @@
         %img(src="/images/Welcome_btn.jpg")
       %ul
         %li{:style => "background: url(/images/change_profile.jpg) no-repeat center top; height: 28px; width:141px;"}
-          %a{:href => "/users/change_profile"}
+          %a{:href => "/users/#{session[:user_id]}/edit"}
             = I18n.t(:change_profile)
         %li{:style => "background: url(/images/change_password.jpg) no-repeat center top; height: 28px; width:141px;"}
-          %a{:href => "/users/change_password"}
+          %a{:href => "/users/#{session[:user_id]}/change_password"}
             = I18n.t(:change_password)
         %li{:style => "background: url(/images/logout.jpg) no-repeat center top; height: 28px; width:141px;"}
           %a{:href => "/users/logout"}
             = I18n.t(:logout)  
   %span.User_Name
     %a{:href => "#"}
-      "user"
+      = session[:name]
   %p
     = I18n.t(:welcome)
