@@ -1,0 +1,59 @@
+%div
+  .links
+    %ul
+      - if session['selector'] == 1
+        %li
+          #select_l.left_side
+          #select_m.link_middle
+            %a{:href => "../selection/select.php"} Selection
+          #select_r.right_side
+          
+      - if session['task_distributor'] == 1
+        %li
+          #task_l.left_side
+          #task_m.link_middle
+            %a{:href => "../task_distribution/pending_species.php"} Task Distribution
+          #task_r.right_side
+          
+      - if session['translator'] == 1
+        %li
+          #trans_l.left_side
+          #trans_m.link_middle
+            %a{:href => "../list/mylist.php?process=2"} Translation
+          #trans_r.right_side
+          
+      - if session['scientific_reviewer'] == 1
+        %li
+          #scien_l.left_side
+          #scien_m.link_middle
+            %a{:href => "../list/mylist.php?process=3"} Scientific Review
+          #scien_r.right_side
+          
+      - if session['linguistic_reviewer'] == 1
+        %li
+          #ling_l.left_side
+          #ling_m.link_middle
+            %a{:href => "../list/mylist.php?process=4"} Linguistic Review
+          #ling_r.right_side
+          
+      - if session['final_editor'] == 1
+        %li
+          #final_l.left_side
+          #final_m.link_middle
+            %a{:href => "../list/mylist.php?process=5"} Final Editing
+          #final_r.right_side
+          
+      - if session['task_distributor'] == 1
+        %li
+          #report_l.left_side
+          #report_m.link_middle
+            %a{:href => "../report/summary.php"} Report
+          #report_r.right_side
+          
+      - if session['super_admin'] == 1
+        %li
+          #user_l.left_side
+          #user_m.link_middle
+            %a{:href => "../users/index"} Users
+          #user_r.right_side
+%div{:style => "clear:both;"} 

@@ -1,6 +1,10 @@
 EolTranslationToolRails::Application.routes.draw do
-  root :to => 'pages#home'
-  get 'pages/home'
+  root :to => 'users#login'
+  match "login_attempt", :to => "users#login_attempt"
+  match "login", :to => "users#login"
+  match "logout", :to => "users#logout"
+  match "home", :to => "pages#home"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

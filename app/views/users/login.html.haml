@@ -1,0 +1,59 @@
+:javascript
+  function check_login_paramters() {
+    var is_input_valid = true;
+    if (($('#username').val() == null) || ($('#username').val() == '')){
+      $('#username_error').removeClass("invisible_error_msg");
+      $('#username_error').addClass("visible_error_msg");
+      is_input_valid = false;
+    }
+    
+    if (($('#password').val() == null) || ($('#password').val() == '')){
+      $('#password_error').removeClass("invisible_error_msg");
+      $('#password_error').addClass("visible_error_msg");
+      is_input_valid = false;
+    }
+    return is_input_valid;
+  }
+
+%form{:action => "login_attempt", :method => "post", :name => "frm", :onsubmit => "return validateForm(this)"}
+  %center
+    %fieldset#Login_FieldSet
+      %legend Login
+      %p
+      %table{:border => "0", :cellpadding => "4", :cellspacing => "0", :style => "border-collapse:collapse;", :width => "100%"}
+        %tr
+          %td.odd{:style => "text-align:right;", :width => "100"} Username:
+          %td.even
+            %input{:maxlength => "100", :name => "username", :style => "width:150px;", :type => "text"}/
+        %tr
+          %td.odd{:style => "text-align:right;", :width => "100"} Password:
+          %td.even
+            %input.input{:maxlength => "100", :name => "password", :type => "password"}/
+        %tr
+          %td{:colspan => "2"}
+            %input.btn{:style => "width:50px; margin:5px 0 0;", :type => "submit", :value => "Login"}/
+  %center
+  %center
+    :javascript
+      function emptyField(textObj)
+      {
+        if (textObj.value.length == 0) return true;
+        for (var i=0; i<textObj.value.length; ++i) {
+        var ch = textObj.value.charAt(i);
+        if (ch != ' ' && ch != '\t') return false;
+        }
+        return true;
+      }
+      function validateForm(frm) {
+        if (emptyField(frm.username)) {
+        alert("Please enter your username");
+        frm.username.focus();
+        return false;
+      }
+      if (emptyField(frm.password)) {
+        alert("Please enter your password");
+        frm.password.focus();
+        return false;
+      }
+        return true;
+      }
