@@ -13,10 +13,16 @@ en:
   
   #flash messages
   flash_error_invalid_username_or_password: "Invalid username or password"
+  changes_saved: "Changes has been saved."
+  access_denied_error: "Access denied."
+  password_changed: "Your password has been changed successfully"
+  invalid_old_password: "Invalid old password!"
   
   #page titles
   page_title_login: "login"
   page_title_application_home: "EOL Translation"
+  profile: "Profile"
+  change_password: "Change Password"
   
   #static urls
   url_bibalex: "http://www.bibalex.org"
@@ -38,23 +44,18 @@ en:
   tab_title_report: "Report"
   tab_title_users: "Users"
   
-  
-  # change profile page
-  profile: "Profile"
+  # labels
   name: "Name:"
   email: "Email:"
-  country: "Country:"
-  save: "Save"
-  changes_saved: "Changes has been saved."
-  access_denied_error: "Access denied."
-  
-  # change password
+  country: "Country:" 
   old_password: "Old Password:"
   new_password: "New Password:"
-  confirm_password: "Confirm Password:"
+  confirm_password: "Confirm Password:"   
+  
+  
+  # buttons
+  save: "Save"
   change: "Change"
-  password_changed: "Your password has been changed successfully"
-  invalid_old_password: "Invalid old password!"
-  change_password: "Change Password"
+  
   
   
