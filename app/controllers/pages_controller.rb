@@ -1,5 +1,4 @@
-class PagesController < ActionController::Base
-  layout 'pages'
+class PagesController < ApplicationController
   def home
     @some = "hello"
   end

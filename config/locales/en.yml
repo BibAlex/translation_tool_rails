@@ -3,9 +3,19 @@
 
 en:
   hello: "Hello world"
+  
   # header: user
   welcome: "Welcome"
   change_profile: "Change Profile"
   change_password: "Change Password"
   logout: "Logout"
+  
+  # change profile page
+  profile: "Profile"
+  name: "Name:"
+  email: "Email:"
+  country: "Country:"
+  save: "Save"
+  changes_saved: "Changes has been saved."
+  
   
