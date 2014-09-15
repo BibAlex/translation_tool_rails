@@ -1,0 +1,27 @@
+= validation_errors_for(@user)
+= form_for @user, :url => {:action => "change_profile_attempt"}, :html => {:method => "put"}, :builder => FormHelper::EOLFormBuilder do |f|
+  %center
+    %div{:style => "width:470px;>\r\n</div>"}  
+      %h2{:style => "text-align:left;"} 
+        = I18n.t(:profile)
+      %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+        %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse>", :width => "100%"}
+          %tbody
+            %tr
+              %td.odd{:style => "text-align:right;", :width => "120"}
+                = I18n.t(:name)
+              %td.even
+                = f.text_field :name, { :maxlength => "100", :style => "width:225px;", :id => "name"}
+            %tr
+              %td.odd{:style => "text-align:right;", :width => "120"}
+                = I18n.t(:email)
+              %td.even
+                = f.text_field :email, { :maxlength => "100", :style => "width:225px;", :id => "email"}
+            %tr
+              %td.odd{:style => "text-align:right;", :width => "120"}
+                = I18n.t(:country)
+              %td.even
+                = f.select :country_id, @countries.collect {|country| [ country.name, country.id ] }, { :style => "width:230px;", :id => "country_id"}
+            %tr
+              %td.table_head{:colspan => "2", :style => "border:none; padding-left:180px;"}
+                %input.btn{:style => "margin:5px;", :type => "submit", :value => "#{I18n.t(:save)}"}
