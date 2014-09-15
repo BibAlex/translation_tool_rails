@@ -3,8 +3,19 @@ class UsersController < ApplicationController
   layout 'pages'
   before_filter :check_authentication, only: [:edit, :update, :change_password, :change_password_attempt]
   
-  def index
+  def new
+    @id = 0
+    @user = User.new
+    @page_title = I18n.t(:page_title_users)
+  end
+  
+  def create
     
+  end
+  
+  def index
+    @page_title = I18n.t(:page_title_users)
+    #list of alll users
   end
   
   def change_password_attempt

@@ -1,6 +1,6 @@
 .banner
   .ba_logo
-    %p Powered by:
+    %p #{I18n.t(:header_powered_by)}
     %a{:href => "#{I18n.t(:url_bibalex)}", :target => "_blank"}
       %img{:alt => "#{I18n.t(:image_alt_BA_Logo)}", :src => "/images/BA_Logo.png"}/
   - if !session[:user_id].nil?

@@ -1,0 +1,6 @@
+.content
+  %fieldset
+    %legend Users
+    .btn{:style => "margin:15px 0 20px;"}
+      .link_middle
+        = link_to "#{I18n.t(:button_add_new)}",{:controller => :users, :action => :new}
