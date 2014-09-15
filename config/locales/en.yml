@@ -48,4 +48,13 @@ en:
   changes_saved: "Changes has been saved."
   access_denied_error: "Access denied."
   
+  # change password
+  old_password: "Old Password:"
+  new_password: "New Password:"
+  confirm_password: "Confirm Password:"
+  change: "Change"
+  password_changed: "Your password has been changed successfully"
+  invalid_old_password: "Invalid old password!"
+  change_password: "Change Password"
+  
   

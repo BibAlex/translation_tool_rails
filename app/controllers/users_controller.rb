@@ -1,14 +1,27 @@
 class UsersController < ApplicationController
   
   layout 'pages'
-  before_filter :check_authentication, only: [:edit, :update]
+  before_filter :check_authentication, only: [:edit, :update, :change_password, :change_password_attempt]
   
   def index
     
   end
   
+  def change_password_attempt
+    @user = User.find(params[:id])
+    if @user.password == params[:old_password]
+      if @user.update_attributes(password: params[:password])
+        flash.now[:notice] = I18n.t(:password_changed)
+      else
+      end
+    else
+      flash.now[:error] = I18n.t(:invalid_old_password)
+    end
+    flash.keep
+    redirect_to :controller => :users, :action => :change_password
+  end
+  
   def change_password
-    
   end
   
   def edit
@@ -22,7 +35,8 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       flash.now[:notice] = I18n.t("changes_saved")
     end
-    render :action => :edit
+    flash.keep
+    redirect_to :controller => :users, :action => :edit
   end
   
   def login
