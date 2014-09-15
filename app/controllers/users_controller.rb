@@ -2,8 +2,19 @@ class UsersController < ActionController::Base
   
   layout 'pages'
   
-  def index
+  def new
+    @id = 0
+    @user = User.new
+    @page_title = I18n.t(:page_title_users)
+  end
+  
+  def create
     
+  end
+  
+  def index
+    @page_title = I18n.t(:page_title_users)
+    #list of alll users
   end
   
   def change_password

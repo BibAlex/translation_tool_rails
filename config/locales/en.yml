@@ -8,6 +8,7 @@ en:
   change_password: "Change Password"
   logout: "Logout"
   welcome_message: "Welcome in EOL Translation Workflow"
+  header_powered_by: "Powered by:"
   
   #flash messages
   flash_error_invalid_username_or_password: "Invalid username or password"
@@ -15,6 +16,7 @@ en:
   #page titles
   page_title_login: "login"
   page_title_application_home: "EOL Translation"
+  page_title_users: "Users"
   
   #static urls
   url_bibalex: "http://www.bibalex.org"
@@ -35,5 +37,15 @@ en:
   tab_title_final_editing: "Final Editing"
   tab_title_report: "Report"
   tab_title_users: "Users"
+  
+  #buttons
+  button_add_new: "Add New"
+  
+  #users tab
+  users_tab_legend_add_user: "Users - Add User"
+  users_tab_legend_edit_user: "Users - Edit User"
+  users_tab_form_title: "Profile"
+  users_tab_field_name: "Name:"
+  
   
   

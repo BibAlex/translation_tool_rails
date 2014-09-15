@@ -1,0 +1,24 @@
+- if @id != 0 && @user.nil? 
+  :javascript
+    alert('user does not exist!');
+    window.location='../users/index';
+.content    
+  %fieldset
+    %legend
+      - if ! @user.nil?
+        = I18n.t(:users_tab_legend_add_user)
+      - else
+        = I18n.t(:users_tab_legend_edit_user)
+    %form{:action => "form.php?id=<?=$id?>", :method => "post", :name => "frm", :onsubmit => "return validateForm(this)"}
+      %div{:style => "clear:both;"}
+      %div{:style => "width:500px;"}
+        %br/
+        %br/  
+        %h2 #{I18n.t(:users_tab_form_title)}
+        %div{:style => "border:1px solid #C6C6C6; border-top:none; border-bottom:none;"}
+          %table{:border => "0", :cellpadding => "8", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+            %tr
+              %td.odd{:style => "text-align:right;", :width => "150"} #{I18n.t(:users_tab_field_name)}
+              %td.even
+                %input.input{:maxlength => "100", :name => "name", :type => "text", :value => "#{@user.name}"}/
+            %tr
