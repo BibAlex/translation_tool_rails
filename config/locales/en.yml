@@ -12,11 +12,15 @@ en:
   welcome_message: "Welcome in EOL Translation Workflow"
   header_powered_by: "Powered by:"
   
+  #login page
+  username: "Username:"
+  password: "Password:"
+  
   #flash messages
   flash_error_invalid_username_or_password: "Invalid username or password"
   
   #page titles
-  page_title_login: "login"
+  page_title_login: "Login"
   page_title_application_home: "EOL Translation"
   page_title_users: "Users"
   
@@ -42,12 +46,31 @@ en:
   
   #buttons
   button_add_new: "Add New"
+  button_save: "Save"
   
   #users tab
   users_tab_legend_add_user: "Users - Add User"
   users_tab_legend_edit_user: "Users - Edit User"
-  users_tab_form_title: "Profile"
+  users_tab_form_title_profile: "Profile"
+  users_tab_form_title_login_info: "Login Info"
+  users_tab_form_title_privileges: "Privileges"
   users_tab_field_name: "Name:"
+  users_tab_field_email: "Email:"
+  users_tab_field_status: "Status"
+  users_tab_field_active: "Active"
+  users_tab_field_inactive: "Inactive"
+  users_tab_field_username: "Username:"
+  users_tab_field_password: "Password:"
+  users_tab_field_confirm_password: "Confirm Password:"
+  users_tab_field_super_admin: "Super admin"
+  users_tab_field_yes: "Yes"
+  users_tab_field_no: "No"
+  users_tab_field_selector: Selector
+  users_tab_field_task_distributor: Task distributor
+  users_tab_field_translator: Translator
+  users_tab_field_scientific_reviewer: Scientific reviewer
+  users_tab_field_linguistic_reviewer: Lingustic reviewer
+  users_tab_field_final_editor: Final editor 
   
   
   
@@ -68,5 +91,14 @@ en:
   password_changed: "Your password has been changed successfully"
   invalid_old_password: "Invalid old password!"
   change_password: "Change Password"
+  
+  #alerts
+  alert_enter_password: "Please enter your password"
+  alert_enter_username: "Please enter your username"
+  alert_not_identical_passwords: "Two passwords must be identical"
+  alert_long_password: "Password length must be larger than or equal 8"
+  alert_long_username: "Username length must be larger than or equal 8"
+  alert_invalid_email: "Invalid email address"
+  alert_enter_name: "Please enter your name"
   
   
