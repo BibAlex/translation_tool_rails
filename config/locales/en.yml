@@ -14,16 +14,16 @@ en:
   
   #flash messages
   flash_error_invalid_username_or_password: "Invalid username or password"
-  changes_saved: "Changes has been saved."
-  access_denied_error: "Access denied."
-  password_changed: "Your password has been changed successfully"
-  invalid_old_password: "Invalid old password!"
+  flash_notice_changes_saved: "Changes has been saved."
+  flash_error_access_denied: "Access denied."
+  flash_notice_password_changed: "Your password has been changed successfully"
+  flash_error_invalid_old_password: "Invalid old password!"
   
   #page titles
   page_title_login: "Login"
   page_title_application_home: "EOL Translation"
-  profile: "Profile"
-  change_password: "Change Password"
+  page_title_profile: "Profile"
+  page_title_change_password: "Change Password"
   page_title_users: "Users"
   
   #static urls
@@ -48,12 +48,11 @@ en:
   
   # labels
   name: "Name"
-  email: "Email:"
-  country: "Country:" 
-  old_password: "Old Password:"
-  new_password: "New Password:"
+  email: "Email"
+  country: "Country" 
+  old_password: "Old Password"
+  new_password: "New Password"
   confirm_password: "Confirm Password:"
-  user_name: "User Name"
   super_admin: "Super Admin"
   selector: "Selector"
   task_distributor: "Task Distributor"
@@ -86,7 +85,7 @@ en:
   users_tab_field_inactive: "Inactive"
   users_tab_field_username: "Username:"
   users_tab_field_password: "Password:"
-  users_tab_field_confirm_password: "Confirm Password:"
+  users_tab_confirm_password: "Confirm Password:"
   users_tab_field_super_admin: "Super admin"
   users_tab_field_yes: "Yes"
   users_tab_field_no: "No"
@@ -96,26 +95,11 @@ en:
   users_tab_field_scientific_reviewer: Scientific reviewer
   users_tab_field_linguistic_reviewer: Lingustic reviewer
   users_tab_field_final_editor: Final editor 
-  
-  # change profile page
-  profile: "Profile"
-  name: "Name:"
-  email: "Email:"
-  country: "Country:"
-  save: "Save"
-  changes_saved: "Changes has been saved."
-  access_denied_error: "Access denied."
-  
-  # change password
-  old_password: "Old Password:"
-  new_password: "New Password:"
-  confirm_password: "Confirm Password:"
-  change: "Change"
-  password_changed: "Your password has been changed successfully"
-  invalid_old_password: "Invalid old password!"
-  change_password: "Change Password"
-  
-  #alerts
+
+   
+  #alert
+  alert_enter_old_password: "Enter old password"
+  alert_enter_new_password: "Enter new password"
   alert_enter_password: "Please enter your password"
   alert_enter_username: "Please enter your username"
   alert_not_identical_passwords: "Two passwords must be identical"
@@ -127,3 +111,4 @@ en:
   alert_error_failed_to_create_user: "User creation failed"
   alert_notice_user_successfuly_updated: "User was successfuly updated"
   alert_error_failed_to_update_user: "User update failed"
+

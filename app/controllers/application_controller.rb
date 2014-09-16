@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
       return false
     end
     if session[:user_id].to_i != params[:id].to_i
-      flash.now[:error] = I18n.t(:access_denied_error)
+      flash.now[:error] = I18n.t(:flash_error_access_denied)
       flash.keep
       redirect_to :controller => :pages, :action => :home
       return false

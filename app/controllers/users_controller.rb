@@ -27,19 +27,19 @@ class UsersController < ApplicationController
   end
   
   def index
-    @page_title = I18n.t(:page_title_users)
-    @users = User.order('name ASC')
-  end
+   @page_title = I18n.t(:page_title_users)
+   @users = User.paginate(:page => params[:page], :per_page => ITEMS_PER_PAGE).order('name DESC')
+ end
   
   def change_password_attempt
     @user = User.find(params[:id])
     if @user.password == params[:old_password]
       if @user.update_attributes(password: params[:password])
-        flash.now[:notice] = I18n.t(:password_changed)
+        flash.now[:notice] = I18n.t(:flash_notice_password_changed)
       else
       end
     else
-      flash.now[:error] = I18n.t(:invalid_old_password)
+      flash.now[:error] = I18n.t(:flash_error_invalid_old_password)
     end
     flash.keep
     redirect_to :controller => :users, :action => :change_password
@@ -104,6 +104,12 @@ class UsersController < ApplicationController
 #     else
 #       flash.now[:error] = I18n.t(:alert_error_failed_to_update_user)
 #     end
+#    ?>
+#    <script>
+#    alert('Changes have been saved');
+#    window.location='list_users.php';
+#    </script>
+#    <?
   end
   
   def change_profile
@@ -115,7 +121,7 @@ class UsersController < ApplicationController
     @countries = Country.load_all
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash.now[:notice] = I18n.t("changes_saved")
+      flash.now[:notice] = I18n.t(:flash_notice_changes_saved)
     end
     flash.keep
     redirect_to :controller => :users, :action => :change_profile
