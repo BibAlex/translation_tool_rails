@@ -34,4 +34,6 @@ EolTranslationToolRails::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  ITEMS_PER_PAGE = 1
 end

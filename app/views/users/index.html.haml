@@ -65,4 +65,6 @@
               %td{:class => "#{@td_class}", :style => "text-align: center"}
                 %a{:href => "/users/#{user.id}/edit"}
                   = I18n.t(:edit)
-             
+    %br
+    %center
+      = will_paginate @users
