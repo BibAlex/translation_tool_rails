@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
     return true
   end
   
+  def restrict_login
+    if !is_logged_in?
+      redirect_to :controller => :users, :action => :login
+      return false
+    end
+    return true
+  end
+  
   def is_logged_in?
     session[:user_id].nil? ? false : true
   end

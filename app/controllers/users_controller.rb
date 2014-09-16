@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   
   layout 'pages'
-  before_filter :check_authentication, only: [:change_profile, :change_profile_attempt, :change_password, :change_password_attempt]
+  before_filter :check_authentication, only: [:change_profile, :change_profile_attempt,
+                                              :change_password, :change_password_attempt]
+  before_filter :restrict_login, only: [:index]
   
   def new
     @id = 0
