@@ -12,10 +12,6 @@ en:
   welcome_message: "Welcome in EOL Translation Workflow"
   header_powered_by: "Powered by:"
   
-  #login page
-  username: "Username:"
-  password: "Password:"
-  
   #flash messages
   flash_error_invalid_username_or_password: "Invalid username or password"
   flash_notice_changes_saved: "Changes has been saved."
@@ -68,9 +64,8 @@ en:
   status: "Status"
   active: "Active"
   in_active: "Inactive"
-  username: "Username"
-  password: "Password"
-  
+  username: "Username:"
+  password: "Password:"
   
   #buttons
   button_add_new: "Add New"
@@ -78,6 +73,8 @@ en:
   button_change: "Change"
   
   #users tab
+  users_tab_legend_add_user: "Users - Add User"
+  users_tab_legend_edit_user: "Users - Edit User"
   users_tab_form_title_profile: "Profile"
   users_tab_form_title_login_info: "Login Info"
   users_tab_form_title_privileges: "Privileges"
@@ -88,7 +85,7 @@ en:
   users_tab_field_inactive: "Inactive"
   users_tab_field_username: "Username:"
   users_tab_field_password: "Password:"
-  users_tab_field_confirm_password: "Confirm Password:"
+  users_tab_confirm_password: "Confirm Password:"
   users_tab_field_super_admin: "Super admin"
   users_tab_field_yes: "Yes"
   users_tab_field_no: "No"
@@ -98,8 +95,6 @@ en:
   users_tab_field_scientific_reviewer: Scientific reviewer
   users_tab_field_linguistic_reviewer: Lingustic reviewer
   users_tab_field_final_editor: Final editor 
-  users_tab_legend_add_user: "Users - Add User"
-  users_tab_legend_edit_user: "Users - Edit User"
 
    
   #alert
@@ -112,3 +107,8 @@ en:
   alert_long_username: "Username length must be larger than or equal 8"
   alert_invalid_email: "Invalid email address"
   alert_enter_name: "Please enter your name"
+  alert_notice_user_successfuly_created: "User was successfuly created"
+  alert_error_failed_to_create_user: "User creation failed"
+  alert_notice_user_successfuly_updated: "User was successfuly updated"
+  alert_error_failed_to_update_user: "User update failed"
+
