@@ -18,10 +18,16 @@ en:
   
   #flash messages
   flash_error_invalid_username_or_password: "Invalid username or password"
+  changes_saved: "Changes has been saved."
+  access_denied_error: "Access denied."
+  password_changed: "Your password has been changed successfully"
+  invalid_old_password: "Invalid old password!"
   
   #page titles
   page_title_login: "Login"
   page_title_application_home: "EOL Translation"
+  profile: "Profile"
+  change_password: "Change Password"
   page_title_users: "Users"
   
   #static urls
@@ -44,13 +50,36 @@ en:
   tab_title_report: "Report"
   tab_title_users: "Users"
   
+  # labels
+  name: "Name"
+  email: "Email:"
+  country: "Country:" 
+  old_password: "Old Password:"
+  new_password: "New Password:"
+  confirm_password: "Confirm Password:"
+  user_name: "User Name"
+  super_admin: "Super Admin"
+  selector: "Selector"
+  task_distributor: "Task Distributor"
+  translator: "Translator"
+  scientific_reviewer: "Scientific Reviewer"
+  linguistic_reviewer: "Linguistic Reviewer"
+  final_editor: "Final Editor"
+  edit: "Edit"
+  status: "Status"
+  active: "Active"
+  in_active: "Inactive"
+  
+  
   #buttons
   button_add_new: "Add New"
   button_save: "Save"
+  button_change: "Change"
   
   #users tab
   users_tab_legend_add_user: "Users - Add User"
   users_tab_legend_edit_user: "Users - Edit User"
+<<<<<<< HEAD
   users_tab_form_title_profile: "Profile"
   users_tab_form_title_login_info: "Login Info"
   users_tab_form_title_privileges: "Privileges"
@@ -71,8 +100,6 @@ en:
   users_tab_field_scientific_reviewer: Scientific reviewer
   users_tab_field_linguistic_reviewer: Lingustic reviewer
   users_tab_field_final_editor: Final editor 
-  
-  
   
   # change profile page
   profile: "Profile"
@@ -100,5 +127,4 @@ en:
   alert_long_username: "Username length must be larger than or equal 8"
   alert_invalid_email: "Invalid email address"
   alert_enter_name: "Please enter your name"
-  
   

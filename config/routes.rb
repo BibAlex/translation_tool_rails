@@ -67,8 +67,8 @@ EolTranslationToolRails::Application.routes.draw do
   root :to => 'pages#home'
   get   "pages/home"
   
-  match "users/:id/edit" => "users#edit", :via => :get
-  match "users/:id" => "users#update", :via => :put
+  match "users/:id/change_profile" => "users#change_profile", :via => :get
+  match "users/:id/change_profile_attempt" => "users#change_profile_attempt"
   match "users/:id/change_password", :to => "users#change_password", :via => :get
   match "users/:id/change_password_attempt", :to => "users#change_password_attempt"
   get "users/logout"

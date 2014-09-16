@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
   layout 'pages'
-  before_filter :check_authentication, only: [:edit, :update, :change_password, :change_password_attempt]
+  before_filter :check_authentication, only: [:change_profile, :change_profile_attempt, :change_password, :change_password_attempt]
   
   def new
     @id = 0
@@ -100,7 +100,7 @@ class UsersController < ApplicationController
   
   def index
     @page_title = I18n.t(:page_title_users)
-    #list of alll users
+    @users = User.order('name ASC')
   end
   
   def change_password_attempt
@@ -214,6 +214,21 @@ class UsersController < ApplicationController
 #        //break;
 #        }
 #        }
+  end
+  
+  def change_profile
+    @user = User.find_by_id(params[:id])
+    @countries = Country.load_all
+  end
+  
+  def change_profile_attempt
+    @countries = Country.load_all
+    @user = User.find(params[:id])
+    if @user.update_attributes(params[:user])
+      flash.now[:notice] = I18n.t("changes_saved")
+    end
+    flash.keep
+    redirect_to :controller => :users, :action => :change_profile
   end
   
   def login

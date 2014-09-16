@@ -4,3 +4,65 @@
     .btn{:style => "margin:15px 0 20px;"}
       .link_middle
         = link_to "#{I18n.t(:button_add_new)}",{:controller => :users, :action => :new}
+    %div{:style => "clear: both;"} 
+    %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+      %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse"}
+        %tbody
+          %tr
+            %td.table_head{:align => "center"} 
+              = I18n.t(:name)
+            %td.table_head{:align => "center"}
+              = I18n.t(:user_name)
+            %td.table_head{:align => "center"}
+              = I18n.t(:status)
+            %td.table_head{:align => "center"}
+              = I18n.t(:super_admin)
+            %td.table_head{:align => "center"}
+              = I18n.t(:selector)
+            %td.table_head{:align => "center"}
+              = I18n.t(:task_distributor)
+            %td.table_head{:align => "center"}
+              = I18n.t(:translator)
+            %td.table_head{:align => "center"}
+              = I18n.t(:scientific_reviewer)
+            %td.table_head{:align => "center"}
+              = I18n.t(:linguistic_reviewer)
+            %td.table_head{:align => "center"}
+              = I18n.t(:final_editor)
+            %td.table_head{:align => "center"}
+              = I18n.t(:edit)
+          - @td_classs = 'odd'
+          - @users.each do |user|
+            - @td_class = (@td_class == 'odd' ? 'even': 'odd')
+            %tr
+              %td{:class => "#{@td_class}"}
+                = user.name
+              %td{:class => "#{@td_class}"}
+                = user.username
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                = user.status
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.super_admin
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.selector
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.task_distributor
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.translator
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.scientific_reviewer
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.linguistic_reviewer
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                - if user.final_editor
+                  %img{:src => "/images/finished.png"}
+              %td{:class => "#{@td_class}", :style => "text-align: center"}
+                %a{:href => "/users/#{user.id}/edit"}
+                  = I18n.t(:edit)
+             

@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
     return nil if username.nil? || password.nil?
     self.find_by_username_and_password(username, password)
   end
+  
+  def status
+    (self.active == 1 ? I18n.t(:active) : I18n.t(:in_active))
+  end
 end
