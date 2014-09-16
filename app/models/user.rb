@@ -1,12 +1,20 @@
 class User < ActiveRecord::Base
    belongs_to :country
-   attr_accessible :name, :email, :country_id, :password
-   
+   attr_accessible :name, :email, :country_id, :password, :active, :username, :super_admin, 
+                    :selector, :task_distributor, :translator, :scientific_reviewer,
+                    :linguistic_reviewer, :final_editor
+   attr_accessor :password_confirmation
    @email_format_re = %r{^(?:[_\+a-z0-9-]+)(\.[_\+a-z0-9-]+)*@([a-z0-9-]+)(\.[a-zA-Z0-9\-\.]+)*(\.[a-z]{2,4})$}i
    validates :email, :presence => true, :format => @email_format_re,
              :uniqueness => { :case_sensitive => false }
    validates :name, :presence => true
-  
+   validates :password, :presence => true,
+             :confirmation => true,
+             :length => {:within => 8..16}
+  validates :username, :presence => true,
+            :length => {:within => 8..16},
+            :uniqueness => { :case_sensitive => false }
+               
   def self.authenticate(username, password)
     return nil if username.nil? || password.nil?
     self.find_by_username_and_password(username, password)
