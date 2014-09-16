@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   
   def index
     @page_title = I18n.t(:page_title_users)
-    #list of alll users
+    @users = User.order('name ASC')
   end
   
   def change_password_attempt

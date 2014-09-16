@@ -47,12 +47,24 @@ en:
   tab_title_users: "Users"
   
   # labels
-  name: "Name:"
+  name: "Name"
   email: "Email:"
   country: "Country:" 
   old_password: "Old Password:"
   new_password: "New Password:"
   confirm_password: "Confirm Password:"
+  user_name: "User Name"
+  super_admin: "Super Admin"
+  selector: "Selector"
+  task_distributor: "Task Distributor"
+  translator: "Translator"
+  scientific_reviewer: "Scientific Reviewer"
+  linguistic_reviewer: "Linguistic Reviewer"
+  final_editor: "Final Editor"
+  edit: "Edit"
+  status: "Status"
+  active: "Active"
+  in_active: "Inactive"
   
   
   #buttons
