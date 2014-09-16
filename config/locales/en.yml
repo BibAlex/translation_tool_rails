@@ -85,7 +85,7 @@ en:
   users_tab_field_inactive: "Inactive"
   users_tab_field_username: "Username:"
   users_tab_field_password: "Password:"
-  users_tab_confirm_password: "Confirm Password:"
+  users_tab_field_confirm_password: "Confirm Password:"
   users_tab_field_super_admin: "Super admin"
   users_tab_field_yes: "Yes"
   users_tab_field_no: "No"

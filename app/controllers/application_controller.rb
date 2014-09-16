@@ -3,10 +3,6 @@ class ApplicationController < ActionController::Base
   layout 'pages'
   
   def check_authentication
-    if !is_logged_in?
-      redirect_to :controller => :users, :action => :login
-      return false
-    end
     if session[:user_id].to_i != params[:id].to_i
       flash.now[:error] = I18n.t(:flash_error_access_denied)
       flash.keep
