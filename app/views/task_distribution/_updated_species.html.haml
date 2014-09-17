@@ -1,0 +1,35 @@
+.form
+  %h2 #{I18n.t(:task_distribution_tab_table_name_updated_species)} (#{@count}) 
+  %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+%div{:style => "border:1px solid #C6C6C6;"}
+  %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+    %tr
+      %td.table_head
+        %center
+          - if @sort_by == "id"
+            = I18n.t(:task_distribution_tab_table_head_id)
+          - else
+            = link_to "#{I18n.t(:task_distribution_tab_table_head_id)}",
+            {:controller => :task_distribution, :action => :index, :side_link => "pending_species", :sort_by => "id"}
+      %td.table_head
+        %center
+          - if @sort_by == "name"
+            = I18n.t(:task_distribution_tab_table_head_name)
+          - else
+            = link_to "#{I18n.t(:task_distribution_tab_table_head_name)}",
+            {:controller => :task_distribution, :action => :index, :side_link => "pending_species", :sort_by => "name"}
+      %td.table_head
+        %center
+          - if @sort_by == "date"
+            = I18n.t(:task_distribution_tab_table_head_date)
+          - else
+            = link_to "#{I18n.t(:task_distribution_tab_table_head_updated_date)}",
+            {:controller => :task_distribution, :action => :index, :side_link => "pending_species", :sort_by => "date"}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_text)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_images)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_audio_video)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_assign)}

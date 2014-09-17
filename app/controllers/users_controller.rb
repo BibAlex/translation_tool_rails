@@ -15,16 +15,18 @@ class UsersController < ApplicationController
   end
   
   def create
-    user_parameters = params 
-    user_parameters.delete :controller
-    user_parameters.delete :action
-    user_parameters.delete :password_confirmation
-    @user = User.new(user_parameters)
+    @countries = Country.load_all
+    params.delete :controller
+    params.delete :action
+    params.delete :password_confirmation
+    @user = User.new(params)
     if @user.save
       flash.now[:notice] = I18n.t(:alert_notice_user_successfuly_created)
+      flash.keep
       redirect_to :controller => :users, :action => :index
     else
       flash.now[:error] = I18n.t(:alert_error_failed_to_create_user)
+      render :new
     end
   end
   
@@ -54,58 +56,43 @@ class UsersController < ApplicationController
     @id = params[:id]
     @user = User.find(@id)
     @page_title = I18n.t(:page_title_users)
+    @countries = Country.load_all
     @action = "update"
     @method = "put"
+    @pending_translations = []
+    @pending_ling_reviews = []
+    @pending_scientific_reviews =[] 
   end
   
   def update
-#    if ($id!=0)
-#      if ($message == '') 
-#        if ($user->translator == 1 && $_POST["translator"]==0)
-#          $pending_translation = BLL_taxon_concepts::Select_pending_taxon_concepts_ForTranslation_ByTranslator('slave',$id,'','','2',1,100000);
-#          echo(count($pending_translation));
-#          if (count($pending_translation)>0)
-#            $message .= 'One or more species are assigned/picked to this user for translation, please reassign and click save<br>';
-#            if ($_SESSION['task_distributor'] == 1)
-#              foreach($pending_translation as $taxon_concept) do
-#                $message .= '<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>';
-#              end
-#              $message .= '<br/>';
-#            end
-#          end
-#        end
-#        if ($user->linguistic_reviewer == 1 && $_POST["linguistic_reviewer"]==0)
-#          $pending_ling_review = BLL_taxon_concepts::Select_pending_taxon_concepts_ForLingReview_ByUser('slave',$id,0,'','2',1,100000);
-#          if (count($pending_ling_review)>0)
-#            $message .= 'One or more species are assigned to this user for linguistic reviewing, please reassign and click save<br>';
-#            if ($_SESSION['task_distributor'] == 1)
-#              foreach($pending_ling_review as $taxon_concept) do
-#                $message .= '<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>';
-#              end
-#              $message .= '<br/>';
-#            end
-#          end
-#        end
-#        if ($user->scientific_reviewer == 1 && $_POST["scientific_reviewer"]==0)
-#          $pending_scientific_review = BLL_taxon_concepts::Select_pending_taxon_concepts_ForScienReview_ByUser('slave',$id,0,'','2',1,100000);
-#          if (count($pending_scientific_review)>0)
-#            $message .= 'One or more species are assigned to this user for scientific reviewing, please reassign and click save<br>';
-#            if ($_SESSION['task_distributor'] == 1)
-#              foreach($pending_scientific_review as $taxon_concept) do
-#                $message .= '<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>';
-#              end
-#              $message .= '<br/>';
-#            end
-#          end
-#        end
-#      end
-#    end
-#    if @user.update_attributes(user_parameters)
-#       flash.now[:notice] = I18n.t(:alert_notice_user_successfuly_updated)
-#       redirect_to :controller => :users, :action => :index
-#     else
-#       flash.now[:error] = I18n.t(:alert_error_failed_to_update_user)
-#     end
+    @countries = Country.load_all
+    @user = User.find(params[:id])
+    @message = ""
+    update = true 
+    @pending_translations = []
+    @pending_ling_reviews = []
+    @pending_scientific_reviews =[] 
+    if (@user.translator == 1 && params[:translator].to_i == 0)
+      @pending_translations = TaxonConcept.select_taxon_concepts_pending_for_translation_by_user(@user.id);
+    end
+    if (@user.linguistic_reviewer == 1 && params[:linguistic_reviewer].to_i == 0)
+      @pending_ling_reviews = TaxonConcept.select_taxon_concepts_pending_for_ling_review_by_user(@user.id);
+    end
+    if (@user.scientific_reviewer == 1 && params[:scientific_reviewer].to_i == 0)
+      @pending_scientific_reviews = TaxonConcept.select_taxon_concepts_pending_for_scien_review_by_user(@user.id);
+    end
+    update = false if @pending_translations.count > 0 || @pending_ling_reviews.count > 0 || @pending_scientific_reviews.count > 0
+    params.delete :controller
+    params.delete :action
+    params.delete :id
+    if @user.update_attributes(params) && update
+      flash.now[:notice] = I18n.t(:alert_notice_user_successfuly_updated)
+      flash.keep
+      redirect_to :controller => :users, :action => :index
+    else
+      flash.now[:error] = I18n.t(:alert_error_failed_to_update_user)
+      render :edit
+    end
 #    ?>
 #    <script>
 #    alert('Changes have been saved');

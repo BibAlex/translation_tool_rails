@@ -11,7 +11,34 @@
       - else
         = I18n.t(:users_tab_legend_edit_user)
     = validation_errors_for(@user)
-    %form{:action => "#{@action}", :method => "#{@method}", :name => "frm", :onsubmit => "return validateForm(this)"}
+    
+    - if (@pending_translations.count > 0)
+      = #{I18n.t(:users_tab_message_translation_tasks)}
+      - if (params[:task_distributor].to_i == 1)
+        - @pending_translations.each do |taxon_concept|
+          %li
+            = link_to "#{taxon_concept.scientificName}",{:controller => :users, :action => :edit}
+            -# = '<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>'
+        %br
+        
+    - if (@pending_ling_reviews.count > 0)
+      = #{I18n.t(:users_tab_message_linguistic_review_tasks)} 
+      - if (params[:task_distributor].to_i == 1)
+        - @pending_ling_reviews.each do |taxon_concept|
+          %li
+            = link_to "#{taxon_concept.scientificName}",{:controller => :users, :action => :edit}
+          - #'<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>';
+        %br
+        
+    - if (@pending_scientific_reviews.count > 0)
+      = #{I18n.t(:users_tab_message_scientific_review_tasks)} 
+      - if (params[:task_distributor].to_i == 1)
+        - @pending_scientific_reviews.each do |taxon_concept|
+          = link_to "#{taxon_concept.scientificName}",{:controller => :users, :action => :edit}
+          - #@message += '<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>';
+        %br
+        
+    %form{:action => "#{@action}", :name => "frm", :onsubmit => "return validateForm(this)"}
       %div{:style => "clear:both;"}
       %div{:style => "width:500px;"}
         %br
@@ -30,7 +57,7 @@
             %tr
               %td.odd{:style => "text-align:right;", :width => "120"} #{I18n.t(:country)}
               %td.even
-                %select 
+                %select{:name => "country_id"}
                   - @countries.each do |country| 
                     - if !@user.id.nil? && @user.country_id == country.id 
                       %option{:value => "#{country.id}", :style => "width:230px;", :selected => "true"} #{country.name}
@@ -48,21 +75,22 @@
                   %input{:name => "active", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_inactive)}
                 - else
                   %input{:name => "active", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_inactive)}
-        %h2 #{I18n.t(:users_tab_form_title_login_info)}
-        %div{:style => "border:1px solid #C6C6C6; border-top:none; border-bottom:none;"}
-          %table{:border => "0", :cellpadding => "8", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
-            %tr
-              %td.odd{:style => "text-align:right;", :width => "150"} #{I18n.t(:users_tab_field_username)}
-              %td.even
-                %input.input{:maxlength => "100", :name => "username", :type => "text", :value => "#{@user.username}"}
-            %tr
-              %td.odd{:style => "text-align:right;"} #{I18n.t(:users_tab_field_password)}
-              %td.even
-                %input.input{:maxlength => "100", :name => "password", :type => "password"}
-            %tr
-              %td.odd{:style => "text-align:right;"} #{I18n.t(:users_tab_field_confirm_password)}
-              %td.even
-                %input.input{:maxlength => "100", :name => "password_confirmation", :type => "password"}
+        - if @user.id.nil?
+          %h2 #{I18n.t(:users_tab_form_title_login_info)}
+          %div{:style => "border:1px solid #C6C6C6; border-top:none; border-bottom:none;"}
+            %table{:border => "0", :cellpadding => "8", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+              %tr
+                %td.odd{:style => "text-align:right;", :width => "150"} #{I18n.t(:users_tab_field_username)}
+                %td.even
+                  %input.input{:maxlength => "100", :name => "username", :type => "text", :value => "#{@user.username}"}
+              %tr
+                %td.odd{:style => "text-align:right;"} #{I18n.t(:users_tab_field_password)}
+                %td.even
+                  %input.input{:maxlength => "100", :name => "password", :type => "password"}
+              %tr
+                %td.odd{:style => "text-align:right;"} #{I18n.t(:users_tab_field_confirm_password)}
+                %td.even
+                  %input.input{:maxlength => "100", :name => "password_confirmation", :type => "password"}
         %h2 #{I18n.t(:users_tab_form_title_privileges)}
         %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
           %table{:border => "0", :cellpadding => "8", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
@@ -86,7 +114,7 @@
                 - else   
                   %input{:name => "selector", :type => "radio", :value => "1"} #{I18n.t(:users_tab_field_yes)}
                   
-                - if @user.id.nil? || @user.super_admin == 0
+                - if @user.id.nil? || @user.selector == 0
                   %input{:name => "selector", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_no)}
                 - else
                   %input{:name => "selector", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_no)}
@@ -98,7 +126,7 @@
                 - else   
                   %input{:name => "task_distributor", :type => "radio", :value => "1"} #{I18n.t(:users_tab_field_yes)}
                   
-                - if @user.id.nil? || @user.super_admin == 0
+                - if @user.id.nil? || @user.task_distributor == 0
                   %input{:name => "task_distributor", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_no)}
                 - else
                   %input{:name => "task_distributor", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_no)}
@@ -110,19 +138,19 @@
                 - else   
                   %input{:name => "translator", :type => "radio", :value => "1"} #{I18n.t(:users_tab_field_yes)}
                   
-                - if @user.id.nil? || @user.super_admin == 0
+                - if @user.id.nil? || @user.translator == 0
                   %input{:name => "translator", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_no)}
                 - else
                   %input{:name => "translator", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_no)}
             %tr
               %td.odd{:style => "text-align:right;", :width => "150"} #{I18n.t(:users_tab_field_scientific_reviewer)}
               %td.even
-                - if !@user.id.nil? && @user.selector == 1
+                - if !@user.id.nil? && @user.scientific_reviewer == 1
                   %input{:name => "scientific_reviewer", :type => "radio", :value => "1", :checked => true} #{I18n.t(:users_tab_field_yes)}
                 - else   
                   %input{:name => "scientific_reviewer", :type => "radio", :value => "1"} #{I18n.t(:users_tab_field_yes)}
                   
-                - if @user.id.nil? || @user.super_admin == 0
+                - if @user.id.nil? || @user.scientific_reviewer == 0
                   %input{:name => "scientific_reviewer", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_no)}
                 - else
                   %input{:name => "scientific_reviewer", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_no)} 
@@ -134,7 +162,7 @@
                 - else   
                   %input{:name => "linguistic_reviewer", :type => "radio", :value => "1"} #{I18n.t(:users_tab_field_yes)}
                   
-                - if @user.id.nil? || @user.super_admin == 0
+                - if @user.id.nil? || @user.linguistic_reviewer == 0
                   %input{:name => "linguistic_reviewer", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_no)}
                 - else
                   %input{:name => "linguistic_reviewer", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_no)}
@@ -146,7 +174,7 @@
                 - else   
                   %input{:name => "final_editor", :type => "radio", :value => "1"} #{I18n.t(:users_tab_field_yes)}
                   
-                - if @user.id.nil? || @user.super_admin == 0
+                - if @user.id.nil? || @user.final_editor == 0
                   %input{:name => "final_editor", :type => "radio", :value => "0", :checked => true} #{I18n.t(:users_tab_field_no)}
                 - else
                   %input{:name => "final_editor", :type => "radio", :value => "0"} #{I18n.t(:users_tab_field_no)}    

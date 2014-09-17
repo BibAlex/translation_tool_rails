@@ -63,7 +63,7 @@ class CreateDatabase < ActiveRecord::Migration
       t.string "name", :limit => 45
     end
   
-    create_table "country", :force => true do |t|
+    create_table "countries", :force => true do |t|
       t.string "name", :limit => 80, :default => "", :null => false
     end
   

@@ -1,0 +1,21 @@
+.form
+  %h2 #{I18n.t(:task_distribution_tab_table_name_distributed_species)} (#{@count})
+  %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+%div{:style => "border:1px solid #C6C6C6;"}
+  %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+    %tr
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_id)}
+      %td.table_head{:width => "300"}
+        %center #{I18n.t(:task_distribution_tab_table_head_name)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_priority)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_status)}
+      %td.table_head{:colspan => "2"}
+        %center #{I18n.t(:task_distribution_tab_table_head_translator)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_sci_reviewer)}
+      %td.table_head
+        %center #{I18n.t(:task_distribution_tab_table_head_ling_reviewer)}
+      %td.table_head{:colspan => "2"}

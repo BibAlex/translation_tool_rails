@@ -85,7 +85,7 @@ en:
   users_tab_field_inactive: "Inactive"
   users_tab_field_username: "Username:"
   users_tab_field_password: "Password:"
-  users_tab_field_confirm_password: "Confirm Password:"
+  users_tab_confirm_password: "Confirm Password:"
   users_tab_field_super_admin: "Super admin"
   users_tab_field_yes: "Yes"
   users_tab_field_no: "No"
@@ -95,47 +95,8 @@ en:
   users_tab_field_scientific_reviewer: Scientific reviewer
   users_tab_field_linguistic_reviewer: Lingustic reviewer
   users_tab_field_final_editor: Final editor 
-  users_tab_message_translation_tasks: 'One or more species are assigned/picked to this user for translation, please reassign and click save<br>'
-  users_tab_message_linguistic_review_tasks: 'One or more species are assigned to this user for linguistic reviewing, please reassign and click save<br>'
-  users_tab_message_scientific_review_tasks: 'One or more species are assigned to this user for scientific reviewing, please reassign and click save<br>'
+
    
-   
-  # Task distribution tab
-  task_distribution_tab_side_link_pending_species: Pending species
-  task_distribution_tab_side_link_pending_species: Pending species
-  task_distribution_tab_side_link_reassign_species: Reassign species
-  task_distribution_tab_side_link_updated_species: Updated species
-  task_distribution_tab_side_link_pending_tasks: Pending tasks
-  task_distribution_tab_side_link_finished_tasks: Finished tasks
-  task_distribution_tab_side_link_search: Search for species
-  # Task distribution tab::Pending species
-  task_distribution_tab_table_name_pending_species: Pending species
-  task_distribution_tab_table_head_id: ID
-  task_distribution_tab_table_head_name: Species Name
-  task_distribution_tab_table_head_date: Selection Date
-  task_distribution_tab_table_head_priority: Priority
-  task_distribution_tab_table_head_user: Selected By
-  task_distribution_tab_table_head_text: Text
-  task_distribution_tab_table_head_images: Images
-  task_distribution_tab_table_head_audio_video: Audio/Video
-  task_distribution_tab_table_head_assign: Assign
-  # Task distribution tab::Reassign species
-  task_distribution_tab_table_name_distributed_species: Distributed Species
-  task_distribution_tab_table_head_status: Status
-  task_distribution_tab_table_head_translator: Translator
-  task_distribution_tab_table_head_sci_reviewer: Scientific Reviewer
-  task_distribution_tab_table_head_ling_reviewer: Linguistic Reviewer
-  # Task distribution tab::Updated species
-  task_distribution_tab_table_name_updated_species: Updated species
-  task_distribution_tab_table_head_updated_date: Updated Date
-  # Task distribution tab::Pending tasks
-  task_distribution_tab_table_name_pending_tasks: Pending tasks
-  task_distribution_tab_table_head_species_count: Species Count
-  # Task distribution tab::Finished tasks
-  task_distribution_tab_table_name_reassign_tasks: Reassign tasks
-  task_distribution_tab_table_head_assigned_picked: Assigned / picked
-  task_distribution_tab_table_head_unassigned: Unassigned (Free)
-  
   #alert
   alert_enter_old_password: "Enter old password"
   alert_enter_new_password: "Enter new password"

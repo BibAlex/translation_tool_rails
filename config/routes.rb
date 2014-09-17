@@ -4,9 +4,14 @@ EolTranslationToolRails::Application.routes.draw do
   match "login", :to => "users#login"
   match "logout", :to => "users#logout"
   match "home", :to => "pages#home"
-  get "users/index"
-  get "users/new"
-  post "users/create"
+  match "/users/index" => "users#index"
+  match "/users/new" => "users#new"
+  match "/users/create" => "users#create" 
+  match "/users/:id/edit" => "users#edit"
+  match "/users/:id/update" => "users#update"
+  
+  #task distibution
+  match "/task_distribution/index" => "task_distribution#index" 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
