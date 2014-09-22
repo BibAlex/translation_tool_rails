@@ -8,15 +8,17 @@ EolTranslationToolRails::Application.routes.draw do
   match "login_attempt", :to => "users#login_attempt"
   match "login", :to => "users#login"
   match "logout", :to => "users#logout"
-  get "users/index"
-  get "users/new"
-  post "users/create"
+  match "home", :to => "pages#home"
+  match "/users/index" => "users#index"
+  match "/users/new" => "users#new"
+  match "/users/create" => "users#create" 
+  match "/users/:id/edit" => "users#edit"
+  match "/users/:id/update" => "users#update"
   match "users/:id/change_profile" => "users#change_profile", :via => :get
   match "users/:id/change_profile_attempt" => "users#change_profile_attempt"
   match "users/:id/change_password", :to => "users#change_password", :via => :get
   match "users/:id/change_password_attempt", :to => "users#change_password_attempt"
   get "users/logout"
-  
   
   #selections
   resources :selections, only: [:create, :index, :new]
@@ -28,9 +30,11 @@ EolTranslationToolRails::Application.routes.draw do
     match "selections/:id/show_taxons" => "selections#show_taxons"
     match "selections/:id/delete" => "selections#delete"
   
-   #taxon concepts
-   match "taxon_concepts/:id/delete" => "taxon_concepts#delete" 
-  
+  #taxon concepts
+  match "taxon_concepts/:id/delete" => "taxon_concepts#delete" 
+    
+  #task distibution
+  match "/task_distribution/index" => "task_distribution#index" 
   
   
   # The priority is based upon order of creation:

@@ -1,0 +1,47 @@
+- if params[:side_link] == "pending_species"
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_pending_species)}",{:controller => :task_distribution, :action => :index, :side_link => "pending_species"},
+    :style => "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
+- else
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_pending_species)}",{:controller => :task_distribution, :action => :index, :side_link => "pending_species"}
+
+- if params[:side_link] == "reassign_species"
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_reassign_species)}",{:controller => :task_distribution, :action => :index, :side_link => "reassign_species"},
+    :style => "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
+- else
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_reassign_species)}",{:controller => :task_distribution, :action => :index, :side_link => "reassign_species"}
+
+- if params[:side_link] == "updated_species"
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_updated_species)}",{:controller => :task_distribution, :action => :index, :side_link => "updated_species"},
+    :style => "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
+- else
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_updated_species)}",{:controller => :task_distribution, :action => :index, :side_link => "updated_species"}
+
+- if params[:side_link] == "pending_tasks"
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_pending_tasks)}",{:controller => :task_distribution, :action => :index, :side_link => "pending_tasks"},
+    :style => "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
+- else
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_pending_tasks)}",{:controller => :task_distribution, :action => :index, :side_link => "pending_tasks"}
+
+- if params[:side_link] == "finished_tasks"
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_finished_tasks)}",{:controller => :task_distribution, :action => :index, :side_link => "finished_tasks"},
+    :style => "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
+- else
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_finished_tasks)}",{:controller => :task_distribution, :action => :index, :side_link => "finished_tasks"}
+
+- if params[:side_link] == "search"
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_search)}",{:controller => :task_distribution, :action => :index, :side_link => "search"},
+    :style => "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
+- else
+  %li.toc
+    = link_to "#{I18n.t(:task_distribution_tab_side_link_search)}",{:controller => :task_distribution, :action => :index, :side_link => "search"}

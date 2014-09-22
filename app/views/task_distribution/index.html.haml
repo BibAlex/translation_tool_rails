@@ -1,0 +1,22 @@
+.content
+  %div{:style => "clear:both; height:15px;"}
+  .form_table
+    .table_of_content
+      %h2 #{I18n.t(:tab_title_task_distribution)}
+      %ul
+        = render :partial => "task_distribution/side_links" 
+    .form
+      - if params[:side_link] == "pending_species" 
+        = render :partial => "task_distribution/pending_species"
+      - if params[:side_link] == "reassign_species" 
+        = render :partial => "task_distribution/reassign_species"
+      - if params[:side_link] == "updated_species" 
+        = render :partial => "task_distribution/updated_species"
+      - if params[:side_link] == "pending_tasks" 
+        = render :partial => "task_distribution/pending_tasks"
+      - if params[:side_link] == "finished_tasks" 
+        = render :partial => "task_distribution/finished_tasks"
+      - if params[:side_link] == "search" 
+        = render :partial => "task_distribution/search"
+
+

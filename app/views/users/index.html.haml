@@ -64,8 +64,7 @@
                 - if user.final_editor == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                %a{:href => "/users/#{user.id}/edit"}
-                  = I18n.t(:edit)
+                = link_to "#{I18n.t(:edit)}",{:controller => :users, :action => :edit, :id => user.id}
     %br
     %center
       = will_paginate @users

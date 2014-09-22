@@ -1,0 +1,12 @@
+.form
+  %h2 #{I18n.t(:task_distribution_tab_table_name_pending_tasks)} (#{@count})
+  %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+%div{:style => "border:1px solid #C6C6C6;"}
+  %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+    %tr
+      %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_id)}
+      %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_date)}
+      %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_priority)}
+      %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_user)}
+      %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_species_count)}
+      %td.table_head{:align => "center"}

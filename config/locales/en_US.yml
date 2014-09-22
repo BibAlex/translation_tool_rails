@@ -1,0 +1,114 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  
+  # header: user
+  welcome: "Welcome"
+  change_profile: "Change Profile"
+  change_password: "Change Password"
+  logout: "Logout"
+  welcome_message: "Welcome in EOL Translation Workflow"
+  header_powered_by: "Powered by:"
+  
+  #flash messages
+  flash_error_invalid_username_or_password: "Invalid username or password"
+  flash_notice_changes_saved: "Changes has been saved."
+  flash_error_access_denied: "Access denied."
+  flash_notice_password_changed: "Your password has been changed successfully"
+  flash_error_invalid_old_password: "Invalid old password!"
+  
+  #page titles
+  page_title_login: "Login"
+  page_title_application_home: "EOL Translation"
+  page_title_profile: "Profile"
+  page_title_change_password: "Change Password"
+  page_title_users: "Users"
+  
+  #static urls
+  url_bibalex: "http://www.bibalex.org"
+  url_eol_bibalex: "eol@bibalex.org"
+  
+  #images
+  image_alt_BA_Logo: "Bibliotheca Alexandrina"
+  
+  #footer
+  footer_copy_right: "Copyright © Bibliotheca Alexandrina (V.1.2), Email:"
+  
+  #tabs titles
+  tab_title_selection: "Selection"
+  tab_title_task_distribution: "Task Distribution"
+  tab_title_translation: "Translation"
+  tab_title_scientific_review: "Scientific Review"
+  tab_title_linguistic_review: "Linguistic Review"
+  tab_title_final_editing: "Final Editing"
+  tab_title_report: "Report"
+  tab_title_users: "Users"
+  
+  # labels
+  name: "Name"
+  email: "Email"
+  country: "Country" 
+  old_password: "Old Password"
+  new_password: "New Password"
+  confirm_password: "Confirm Password:"
+  super_admin: "Super Admin"
+  selector: "Selector"
+  task_distributor: "Task Distributor"
+  translator: "Translator"
+  scientific_reviewer: "Scientific Reviewer"
+  linguistic_reviewer: "Linguistic Reviewer"
+  final_editor: "Final Editor"
+  edit: "Edit"
+  status: "Status"
+  active: "Active"
+  in_active: "Inactive"
+  username: "Username:"
+  password: "Password:"
+  
+  #buttons
+  button_add_new: "Add New"
+  button_save: "Save"
+  button_change: "Change"
+  
+  #users tab
+  users_tab_legend_add_user: "Users - Add User"
+  users_tab_legend_edit_user: "Users - Edit User"
+  users_tab_form_title_profile: "Profile"
+  users_tab_form_title_login_info: "Login Info"
+  users_tab_form_title_privileges: "Privileges"
+  users_tab_field_name: "Name:"
+  users_tab_field_email: "Email:"
+  users_tab_field_status: "Status"
+  users_tab_field_active: "Active"
+  users_tab_field_inactive: "Inactive"
+  users_tab_field_username: "Username:"
+  users_tab_field_password: "Password:"
+  users_tab_confirm_password: "Confirm Password:"
+  users_tab_field_super_admin: "Super admin"
+  users_tab_field_yes: "Yes"
+  users_tab_field_no: "No"
+  users_tab_field_selector: Selector
+  users_tab_field_task_distributor: Task distributor
+  users_tab_field_translator: Translator
+  users_tab_field_scientific_reviewer: Scientific reviewer
+  users_tab_field_linguistic_reviewer: Lingustic reviewer
+  users_tab_field_final_editor: Final editor 
+
+   
+  #alert
+  alert_enter_old_password: "Enter old password"
+  alert_enter_new_password: "Enter new password"
+  alert_enter_password: "Please enter your password"
+  alert_enter_username: "Please enter your username"
+  alert_not_identical_passwords: "Two passwords must be identical"
+  alert_long_password: "Password length must be larger than or equal 8"
+  alert_long_username: "Username length must be larger than or equal 8"
+  alert_invalid_email: "Invalid email address"
+  alert_enter_name: "Please enter your name"
+  alert_notice_user_successfuly_created: "User was successfuly created"
+  alert_error_failed_to_create_user: "User creation failed"
+  alert_notice_user_successfuly_updated: "User was successfuly updated"
+  alert_error_failed_to_update_user: "User update failed"
+

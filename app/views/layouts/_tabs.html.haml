@@ -12,7 +12,7 @@
         %li
           #task_l.left_side
           #task_m.link_middle
-            %a{:href => "../task_distribution/pending_species.php"} #{I18n.t(:tab_title_task_distribution)}
+            = link_to "#{I18n.t(:tab_title_task_distribution)}",{:controller => :task_distribution, :action => :index, :side_link => "pending_species"} 
           #task_r.right_side
           
       - if session['translator'] == 1
