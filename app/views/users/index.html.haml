@@ -1,6 +1,7 @@
 .content
   %fieldset
-    %legend Users
+    %legend
+      = I18n.t(:users_tab_table_header)
     .btn{:style => "margin:15px 0 20px;"}
       .link_middle
         = link_to "#{I18n.t(:button_add_new)}",{:controller => :users, :action => :new}
@@ -42,25 +43,25 @@
               %td{:class => "#{@td_class}", :style => "text-align: center"}
                 = user.status
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.super_admin
+                - if user.super_admin == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.selector
+                - if user.selector == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.task_distributor
+                - if user.task_distributor == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.translator
+                - if user.translator == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.scientific_reviewer
+                - if user.scientific_reviewer == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.linguistic_reviewer
+                - if user.linguistic_reviewer == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
-                - if user.final_editor
+                - if user.final_editor == 1
                   %img{:src => "/images/finished.png"}
               %td{:class => "#{@td_class}", :style => "text-align: center"}
                 = link_to "#{I18n.t(:edit)}",{:controller => :users, :action => :edit, :id => user.id}

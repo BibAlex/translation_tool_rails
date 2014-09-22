@@ -1,0 +1,43 @@
+.form
+  %h2 #{@btaches} #{I18n.t(:old_selection_tab_count)}
+  %div{:style => "border:1px solid #C6C6C6;"}
+    %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "text-align:center; border-collapse:collapse", :width => "100%"}
+      %tr
+        %td.table_head{:style => "border-bottom:1px solid #C6C6C6;"}
+          = I18n.t(:id)
+        %td.table_head{:style => "border-bottom:1px solid #C6C6C6;"}
+          = I18n.t(:selection_date)
+        %td.table_head{:style => "border-bottom:1px solid #C6C6C6;"}
+          = I18n.t(:selected_by)
+        %td.table_head{:style => "border-bottom:1px solid #C6C6C6;"}
+          = I18n.t(:priority)
+        %td.table_head{:style => "border-bottom:1px solid #C6C6C6;"}
+        %td.table_head{:style => "border-bottom:1px solid #C6C6C6;"}
+      - @td_classs = 'odd'
+      - @selections.each do |selection|
+        - @td_class = (@td_class == 'odd' ? 'even': 'odd')
+        %tr
+          %td{:class => "#{@td_class}"}
+            %center
+              = selection.id
+          %td{:class => "#{@td_class}"}
+            %center
+              = selection.date_selected
+          %td{:class => "#{@td_class}"}
+            %center
+              = User.get_user_name(selection.user_id)
+          %td{:class => "#{@td_class}"}
+            %center
+              = Priority.get_label(selection.priority_id)
+          %td{:class => "#{@td_class}"}
+            %center
+              %a{:href => "/selections/#{selection.id}/show_taxons"} 
+                = I18n.t(:show_taxons)
+          %td{:class => "#{@td_class}"}
+            - if selection.total_taxon_count == 0
+              %center
+                %a{:href => "/selections/#{selection.id}/delete"}
+                  = I18n.t(:delete)
+  %br
+    %center
+      = will_paginate @selections

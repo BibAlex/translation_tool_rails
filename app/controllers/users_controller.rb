@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   
   layout 'pages'
-  before_filter :restrict_login, except: [:login]
+  before_filter :restrict_login, except: [:login, :login_attempt]
                                         
-  before_filter :check_authentication, except: [:login, :new, :create, :index, :logout]
+  before_filter :check_authentication, except: [:login, :new, :create, :index, :logout,
+                                                :login_attempt]
   
   def new
     @id = 0

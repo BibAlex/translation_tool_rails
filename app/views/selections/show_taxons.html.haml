@@ -1,0 +1,90 @@
+.form
+  %h2
+    = I18n.t(:selection_status)
+  %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+    %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+      %tr
+        %td.odd
+          %b
+            = I18n.t(:id)
+        %td.even
+          = @selection.id
+      %tr
+      %td.odd
+        %b
+          = I18n.t(:species_count)
+      %td.even
+        = @selection.id
+      %tr
+        %td.odd
+          %b
+            = I18n.t(:selected_by)
+        %td.even
+          = User.get_user_name(@selection.user_id)
+      %tr
+        %td.odd
+          %b
+            = I18n.t(:priority)
+        %td.even
+          =Priority.get_label(@selection.priority_id)
+      %tr
+        %td.odd
+          %b
+            = I18n.t(:comments)
+        %td.even
+          = @selection.comments
+      %tr
+        %td.odd
+          %b
+            = I18n.t(:date)
+        %td.even
+          = @selection.date_selected
+        
+  %div{:style => "clear:both;"}
+    %br/
+    %br/
+  - if (@taxon_ids != '')
+    %div{:style => "border:1px solid #C6C6C6;"}
+      %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+        %tr
+          %td.table_head 
+            = I18n.t(:id)
+          %td.table_head{:width => "200px"}
+            = I18n.t(:species_name)
+          %td.table_head{:width => "40px"}
+            %center
+              = I18n.t(:status)
+          %td.table_head{:style => "text-align:center;"}
+            %center
+              = I18n.t(:text_objects)
+          %td.table_head
+            %center
+              = I18n.t(:images_vedio)
+          %td.table_head
+            %center
+          - @td_classs = 'odd'
+          - @master_taxon_concepts.each_with_index do |master_taxon_concept, i|
+            - @td_class = (@td_class == 'odd' ? 'even': 'odd')
+            %tr
+              %td{:class => "#{@td_class}"}
+                %center
+                  = master_taxon_concept.taxon_concept_id
+              %td{:class => "#{@td_class}"}
+                %center
+                  %a{:href => "/#{EOL_SITE_URL}/pages/#{master_taxon_concept.taxon_concept_id}"} 
+                    = master_taxon_concept.scientificName
+              %td{:class => "#{@td_class}"}
+                %center
+                  = Status.select_status_by_id(@taxon_concepts[i].taxon_status_id)
+              %td{:class => "#{@td_class}"}
+                %center
+                  = master_taxon_concept.total_text_objects
+              %td{:class => "#{@td_class}"}
+                %center
+                  = master_taxon_concept.total_image_objects + master_taxon_concept.total_other_objects
+              %td{:class => "#{@td_class}"}
+                - if (@taxon_concepts[i].can_delete?(master_taxon_concept))
+                  %center
+                    %a{:href => "/taxon_concepts/#{@taxon_concepts[i].id}/delete",
+                       :onclick => "return confirm(#{I18n.t(:alert_confirm_delete)}#{I18n.t(:taxon)}#{I18n.t(:alert_work_lost)})"} 
+                      = I18n.t(:delete)

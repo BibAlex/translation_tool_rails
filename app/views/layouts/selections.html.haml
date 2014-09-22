@@ -1,0 +1,24 @@
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  = render :partial => "layouts/header"
+  %body
+    .wrapper
+      = render :partial => "layouts/top"  
+      - if !session[:user_id].nil?
+        = render :partial => "layouts/tabs" 
+      .content
+        %br
+        .form_table
+          .table_of_content
+            %h2
+              = I18n.t(:old_selection_tab_selection_tool)
+            %ul
+              %li.toc
+                - new_tab_style = params[:action] == 'new' ? I18n.t(:active_table_of_content_style) : ""
+                %a{:href => "/selections/new", :style => new_tab_style}
+                  = I18n.t(:old_selection_tab_new_selection)
+              %li.toc
+                - index_tab_style = params[:action] == 'index' ? I18n.t(:active_table_of_content_style) : ""
+                %a{:href => "/selections/index", :style => index_tab_style}
+                  = I18n.t(:old_selection_tab_count)
+          = yield
+      = render :partial => "layouts/footer"

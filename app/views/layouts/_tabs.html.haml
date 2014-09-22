@@ -5,7 +5,7 @@
         %li
           #select_l.left_side
           #select_m.link_middle
-            %a{:href => "../selection/select.php"} #{I18n.t(:tab_title_selection)}
+            = link_to "#{I18n.t(:tab_title_selection)}",{:controller => :selections, :action => :new}
           #select_r.right_side
           
       - if session['task_distributor'] == 1
