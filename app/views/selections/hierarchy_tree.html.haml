@@ -1,5 +1,5 @@
 [
-- @hierarchy_entries.each do |he|
+- @hierarchy_entries.each_with_index do |he|
   {attributes: {
   ="id: '#{he.id}', "
   ="taxon_concept: '#{he.clean_taxon_concept}'"

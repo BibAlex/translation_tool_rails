@@ -113,8 +113,8 @@ en:
   button_add_new: "Add New"
   button_save: "Save"
   button_change: "Change"
-  search: "Search"
-  save_and_submit_to_task_distributor: "Save and submit to Task Distributor"
+  button_search: "Search"
+  button_save_and_submit_to_task_distributor: "Save and submit to Task Distributor"
   
   #links
   delete: "Delete"
