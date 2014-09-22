@@ -71,7 +71,8 @@ en:
   button_add_new: "Add New"
   button_save: "Save"
   button_change: "Change"
-  
+  button_search: Search
+  button_submit: Submit
   #users tab
   users_tab_legend_add_user: "Users - Add User"
   users_tab_legend_edit_user: "Users - Edit User"
@@ -101,6 +102,7 @@ en:
    
    
   # Task distribution tab
+  task_distribution_tab_page_title_reassign_taxon: Reassign Taxon
   task_distribution_tab_side_link_pending_species: Pending species
   task_distribution_tab_side_link_pending_species: Pending species
   task_distribution_tab_side_link_reassign_species: Reassign species
@@ -119,12 +121,18 @@ en:
   task_distribution_tab_table_head_images: Images
   task_distribution_tab_table_head_audio_video: Audio/Video
   task_distribution_tab_table_head_assign: Assign
+  
+  
   # Task distribution tab::Reassign species
   task_distribution_tab_table_name_distributed_species: Distributed Species
   task_distribution_tab_table_head_status: Status
   task_distribution_tab_table_head_translator: Translator
   task_distribution_tab_table_head_sci_reviewer: Scientific Reviewer
   task_distribution_tab_table_head_ling_reviewer: Linguistic Reviewer
+  task_distribution_label_assign: Assign
+  task_distribution_label_reassign: Reassign
+  task_distribution_label_assigned: Assigned
+  task_distribution_label_picked: Picked
   # Task distribution tab::Updated species
   task_distribution_tab_table_name_updated_species: Updated species
   task_distribution_tab_table_head_updated_date: Updated Date
@@ -135,6 +143,17 @@ en:
   task_distribution_tab_table_name_reassign_tasks: Reassign tasks
   task_distribution_tab_table_head_assigned_picked: Assigned / picked
   task_distribution_tab_table_head_unassigned: Unassigned (Free)
+  task_distribution_label_show_species: Show Species
+  # Task distribution tab::Search
+  task_distribution_tab_table_name_search_for_species: Search for species
+  task_distribution_label_species_name: Species Name
+  task_distribution_label_results_found: result(s) found
+  
+  # assign form
+  assign_form_title_assign_species: Assign Species
+  assign_form_translator: "Translator:"
+  assign_form_sci_reviewer: "Scientific Reviewer:"
+  assign_form_ling_reviewer: "Linguistic Reviewer:"
   
   #alert
   alert_enter_old_password: "Enter old password"
@@ -150,4 +169,9 @@ en:
   alert_error_failed_to_create_user: "User creation failed"
   alert_notice_user_successfuly_updated: "User was successfuly updated"
   alert_error_failed_to_update_user: "User update failed"
-
+  alert_missing_scientific_reviewer: 'Missing scientific reviewer'
+  alert_missing_linguistc_reviewer: 'Missing linguistc reviewer'
+  #emails
+  email_signature: "<br/><br/>Regards,<br/>Arabic EOL Team<br/><a href=\'http://localhost/eol_translation\'/>http://localhost/eol_translation</a>"
+  email_to_translator_to_pick:
+  email_to_translator_to_translate: 

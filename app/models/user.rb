@@ -23,4 +23,25 @@ class User < ActiveRecord::Base
   def status
     (self.active == 1 ? I18n.t(:active) : I18n.t(:in_active))
   end
+  
+  def self.get_user_name(id) 
+    user = User.find(id)  
+    if user
+      return user.name
+    else
+      return ''
+    end
+  end
+  
+  def self.get_all_translators
+    User.where(translator: 1)
+  end
+  
+  def self.get_all_linguistic_reviewers
+    User.where(linguistic_reviewer: 1)
+  end
+    
+  def self.get_all_scientific_reviewers
+    User.where(scientific_reviewer: 1)
+  end
 end

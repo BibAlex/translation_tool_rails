@@ -10,3 +10,29 @@
       %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_user)}
       %td.table_head{:align => "center"} #{I18n.t(:task_distribution_tab_table_head_species_count)}
       %td.table_head{:align => "center"}
+    - td_class = 'odd'
+    - @list.each do |selection|
+      - id = selection.id
+      - if td_class == 'odd' 
+        - td_class = 'even' 
+      - else
+        - td_class = 'odd'
+      %tr
+        %td{:class => "#{td_class}", :style => "text-align:center;"} 
+          = "#{selection.id}"
+        %td{:class => "#{td_class}", :style => "text-align:center;"} 
+          = "#{selection.date_selected}"
+        %td{:class => "#{td_class}", :style => "text-align:center;"}
+          = "#{Priority.find_label(selection.priority_id)}"
+        %td{:class => "#{td_class}"}
+          %center 
+            = "#{User.get_user_name(selection.user_id)}"
+        %td{:class => "#{td_class}"}
+          %center 
+            = "#{SelectionBatch.get_species_count(id)}"
+        %td{:class => "#{td_class}"}
+          %center
+            %a{:href => "show_taxons.php?id=<?=$id?>"} #{I18n.t(:task_distribution_label_show_species)}
+  %br
+    %center
+      = will_paginate @list   

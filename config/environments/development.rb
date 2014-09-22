@@ -14,7 +14,7 @@ EolTranslationToolRails::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -36,4 +36,16 @@ EolTranslationToolRails::Application.configure do
   config.assets.debug = true
   
   ITEMS_PER_PAGE = 1
+  
+  VISIBILITY_INVISIBLE = '0'
+  
+  LANGUAGE_EN = '152'
+  
+  DATA_TYPES_TEXT = '3'
+  
+  TOC_INCLUDED_PARENT_IDS = '1, 3, 4, 5, 6, 8, 256, 303, 315, 326, 346'
+  
+  DATA_TYPES_MEDIA = '2, 4, 7, 8'
+  
+  From_Mail = "user@mail.com" 
 end

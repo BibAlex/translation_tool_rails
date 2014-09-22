@@ -12,6 +12,8 @@ EolTranslationToolRails::Application.routes.draw do
   
   #task distibution
   match "/task_distribution/index" => "task_distribution#index" 
+  match "/task_distribution/assign_form" => "task_distribution#assign_form"
+  match "/task_distribution/assign" => "task_distribution#assign"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
