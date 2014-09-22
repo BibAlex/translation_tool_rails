@@ -1,0 +1,52 @@
+%script{:src => "/jsTree/source/_lib/css.js", :type => "text/javascript"}
+%script{:src => "/jsTree/source/_lib/jquery.js", :type => "text/javascript"}
+%script{:src => "/jsTree/source/_lib/jquery.listen.js", :type => "text/javascript"}
+%script{:src => "/jsTree/source/tree_component.js", :type => "text/javascript"}
+%script{:src => "/jsTree/source/_lib/sarissa.js", :type => "text/javascript"}
+%script{:src => "/jsTree/source/_lib/sarissa_ieemu_xpath.js", :type => "text/javascript"}
+%script{:src => "/jsTree/source/_lib/jquery.xslt.js", :type => "text/javascript"}
+
+
+
+%form{:action => "create",  :name => "frm"}
+  .form
+    - @selection_params[:taxon_concept_array].each do |taxon_concept_id|
+      %input{:name => "taxon_concept[]", :type => "hidden", :value => "#{taxon_concept_id}"}
+    = render :partial => "selections/search_params"
+    %div{:style => "clear:both;"}
+      %br/
+      %br/
+      %h2
+        = I18n.t(:search_result)
+      %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+        %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse",
+               :width => "100%"}
+          %tr
+            %td.even
+              %ul
+                - @selection_params[:taxon_concept_array].each do |taxon_concept_id|
+                  - taxon_concept = TaxonConcept.get_taxon_concept(taxon_concept_id.to_i)
+                  %li
+                    %a{:href => "#{EOL_SITE_URL}/pages/#{taxon_concept.id}", :target => "_blank"}
+                      = TaxonConcept.get_name(taxon_concept.id, @selection_params[:hierarchy_id])
+          %tr 
+            %td.table_head{:style => "padding-left: 20px;"}
+              = I18n.t(:priority)
+          %tr
+            %td{:style => "padding-left: 20px;"}
+              %select{:name => "priority_id"}
+                - priorities = Priority.load_all
+                - priorities.each do |priority|
+                  - if (priority.is_default!=0)
+                    %option{:value => "#{priority.id}", :selected => true}
+                      = priority.label
+                  - else
+                    %option{:value => "#{priority.id}"}
+                      = priority.label
+          %tr
+            %td.table_head{:style => "padding-left: 20px;"}
+              = I18n.t(:comments)
+          %tr
+            %td{:style => "padding-left: 20px;"}
+              %textarea{:cols => "58", :name => "comments", :rows => "4"}
+              %input.btn{:type => "submit", :value => "#{I18n.t(:save_and_submit_to_task_distributor)}"}

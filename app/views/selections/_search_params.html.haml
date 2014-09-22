@@ -1,0 +1,100 @@
+%h2
+  = I18n.t(:search_for)
+%div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+  %input{:name => "hierarchy_id", :type => "hidden", :value => "#{@selection_params[:hierarchy_id]}"}
+  %input{:name => "hierarchy_entry_id", :type => "hidden", :value => "#{@selection_params[:hierarchy_entry_id]}"}
+  %input{:name => "have_text", :type => "hidden", :value => "#{@selection_params[:have_text]}"}
+  %input{:name => "text_curated", :type => "hidden", :value => "#{@selection_params[:text_curated]}"}
+  %input{:name => "text_vetted", :type => "hidden", :value => "#{@selection_params[:text_vetted]}"}
+  %input{:name => "have_images", :type => "hidden", :value => "#{@selection_params[:have_images]}"}
+  %input{:name => "images_curated", :type => "hidden", :value => "#{@selection_params[:images_curated]}"}
+  %input{:name => "images_vetted", :type => "hidden", :value => "#{@selection_params[:images_vetted]}"}
+  %input{:name => "select_hotlists", :type => "hidden", :value => "#{@selection_params[:select_hotlists]}"}
+  %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+    %tr
+      %td.odd
+        %b
+          = I18n.t(:hierarchy)
+      %td.even
+        = Hierarchy.get_name(@selection_params[:hierarchy_id])
+    %tr
+      %td.odd
+        %b
+          = I18n.t(:hierarchy_entry)
+      %td.even
+        = HierarchyEntry.get_name(@selection_params[:hierarchy_entry_id])
+    - if @selection_params[:select_hotlists] == 1
+      %tr
+        %td.odd{:colspan => "2"}
+          %b
+            = I18n.t(:only_load_hotlist_species)
+    %tr
+      %td.odd
+        %b
+          = I18n.t(:have_text)
+      %td.odd
+        - if @selection_params[:have_text].to_i == -1
+          = I18n.t(:all)
+        - elsif @selection_params[:have_text].to_i == 0
+          = I18n.t(:users_tab_field_no)
+        - else @selection_params[:have_text].to_i == 1
+          = I18n.t(:users_tab_field_yes)
+    - if @selection_params[:have_text] != 0
+      %tr
+        %td.odd 
+          = "&nbsp;&nbsp;&nbsp;&nbsp; #{I18n.t(:vetted)}".html_safe
+        %td.even
+          - if @selection_params[:text_vetted]
+            - if @selection_params[:text_vetted].include?(VETTED_TRUSTED.to_s)
+              = I18n.t(:trusted)
+            - if @selection_params[:text_vetted].include?(VETTED_UNTRUSTED.to_s)
+              = I18n.t(:untrusted)
+            - if @selection_params[:text_vetted].include?(VETTED_UNKNOWN.to_s)
+              = I18n.t(:unknown)
+      %tr
+        %td.odd 
+          = "&nbsp;&nbsp;&nbsp;&nbsp; #{I18n.t(:curated)}".html_safe
+        %td.even
+          - if @selection_params[:text_curated]
+            - if @selection_params[:text_curated].to_i == -1
+              = I18n.t(:all)
+            - elsif @selection_params[:text_curated].to_i == 0
+              = I18n.t(:users_tab_field_no)
+            - else @selection_params[:text_curated].to_i == 1
+              = I18n.t(:users_tab_field_yes)
+    - if @selection_params[:have_text] != 0
+      %tr
+        %td.odd
+          %b
+            = I18n.t(:have_images)
+        %td.odd
+          - if @selection_params[:have_images]
+            - if @selection_params[:have_images].to_i == -1
+              = I18n.t(:all)
+            - elsif @selection_params[:have_images].to_i == 0
+              = I18n.t(:users_tab_field_no)
+            - else @selection_params[:have_images].to_i == 1
+              = I18n.t(:users_tab_field_yes)
+      - if @selection_params[:have_images] != 0
+        %tr
+          %td.odd 
+            = "&nbsp;&nbsp;&nbsp;&nbsp; #{I18n.t(:vetted)}".html_safe
+          %td.even
+            - if @selection_params[:images_vetted]
+              - if @selection_params[:images_vetted].include?(VETTED_TRUSTED.to_s)
+                = I18n.t(:trusted)
+              - if @selection_params[:images_vetted].include?(VETTED_UNTRUSTED.to_s)
+                = I18n.t(:untrusted)
+              - if @selection_params[:images_vetted].include?(VETTED_UNKNOWN.to_s)
+                = I18n.t(:unknown)
+        %tr
+          %td.odd 
+            = "&nbsp;&nbsp;&nbsp;&nbsp; #{I18n.t(:curated)}".html_safe
+          %td.even
+            - if @selection_params[:images_curated]
+              - if @selection_params[:images_curated].to_i == -1
+                = I18n.t(:all)
+              - elsif @selection_params[:images_curated].to_i == 0
+                = I18n.t(:users_tab_field_no)
+              - else @selection_params[:images_curated].to_i == 1
+                = I18n.t(:users_tab_field_yes)

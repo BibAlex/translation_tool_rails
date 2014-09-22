@@ -1,0 +1,99 @@
+:javascript
+  function check_all() {
+  with (document.frm) {
+  for (var i=0; i < elements.length; i++) {
+  if (elements[i].type == 'checkbox' && elements[i].name == 'taxon_concept[]')
+  elements[i].checked = true;
+  }
+  }
+  }
+  
+  function uncheck_all() {
+  with (document.frm) {
+  for (var i=0; i < elements.length; i++) {
+  if (elements[i].type == 'checkbox' && elements[i].name == 'taxon_concept[]')
+  elements[i].checked = false;
+  }
+  }
+  }
+  
+  function validateForm(frm) {
+    var SelectCount = 0;
+    with (document.frm) {
+    for (var i=0; i < elements.length; i++) {
+    if (elements[i].type == 'checkbox' && elements[i].name == 'taxon_concept[]')
+    if (elements[i].checked) {
+    SelectCount++;
+    }
+    }
+    }
+    if (SelectCount==0) {
+    alert("#{I18n.t(:alert_select_at_least_one_species)}");
+    return false;
+    }
+    return confirm('Are you sure you want to proceed with the selected species');
+  }
+  
+%form{:action => "save_search",  :name => "frm", :onsubmit => "return validateForm(this)"}
+  .form
+    = render :partial => "selections/search_params"
+    %div{:style => "clear:both;"}
+      %br/
+      %br/
+      %h2
+        = I18n.t(:search_result)
+    %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+      %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+        %tr
+          %td.table_head 
+            = I18n.t(:id)
+          %td.table_head{:width => "200px"}
+            = I18n.t(:species_name)
+          %td.table_head{:width => "40px"}
+            %center
+              = I18n.t(:status)
+          %td.table_head{:style => "text-align:center;"}
+            %center
+              = I18n.t(:text_objects)
+          %td.table_head
+            %center
+              = I18n.t(:images)
+          %td.table_head
+            %center
+              = I18n.t(:video_audio)
+        - @count = 0
+        - @td_class = 'odd'
+        - @hierarchy_entries.each do |hierarchy_entry|
+          - if (hierarchy_entry.total_text_objects > 0 || hierarchy_entry.total_image_objects > 0)
+            - @td_class = (@td_class == 'odd' ? 'even': 'odd')
+            %tr
+              %td{:class => "#{@td_class}"}
+                = hierarchy_entry.taxon_concept_id
+              %td{:class => "#{@td_class}"}
+                %a{:href => "#{EOL_SITE_URL}/pages/#{hierarchy_entry.taxon_concept_id}", :target => "_blank"}
+                  = hierarchy_entry.string
+              %td{:class => "#{@td_class}"}
+                %center
+                  - if (TaxonConcept.exists_on_slave(hierarchy_entry.taxon_concept_id))
+                    = I18n.t(:selected)
+                  - else
+                    - @count = @count + 1
+                    %input{:name => "taxon_concept[]", :type => "checkbox", :value => "#{hierarchy_entry.taxon_concept_id}"}
+              %td{:class => "#{@td_class}"}
+                %center 
+                  = hierarchy_entry.total_text_objects
+              %td{:class => "#{@td_class}"}
+                %center 
+                  = hierarchy_entry.total_image_objects
+              %td{:class => "#{@td_class}"}
+                %center 
+                  = hierarchy_entry.total_other_objects
+            %tr
+              %td.table_head{:colspan => "6"}
+                = "#{@count} #{I18n.t(:new_species_found)}"
+                - if @count > 0
+                  %br/
+                  %a{:href => "javascript:check_all()"} Check all
+                  %a{:href => "javascript:uncheck_all()"} Uncheck all
+                  %br/
+                  %input.btn{:type => "submit", :value => "#{I18n.t(:button_save)}"}

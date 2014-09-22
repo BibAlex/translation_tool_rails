@@ -1,12 +1,38 @@
 EolTranslationToolRails::Application.routes.draw do
   root :to => 'users#login'
+  #pages
+  match "home", :to => "pages#home"
+  
+  
+  #users  
   match "login_attempt", :to => "users#login_attempt"
   match "login", :to => "users#login"
   match "logout", :to => "users#logout"
-  match "home", :to => "pages#home"
   get "users/index"
   get "users/new"
   post "users/create"
+  match "users/:id/change_profile" => "users#change_profile", :via => :get
+  match "users/:id/change_profile_attempt" => "users#change_profile_attempt"
+  match "users/:id/change_password", :to => "users#change_password", :via => :get
+  match "users/:id/change_password_attempt", :to => "users#change_password_attempt"
+  get "users/logout"
+  
+  
+  #selections
+  resources :selections, only: [:create, :index, :new]
+    match "selections/create" => "selections#create"
+    match "selections/index" => "selections#index"
+    get "selections/hierarchy_tree"
+    get "selections/search"
+    get "selections/save_search"
+    match "selections/:id/show_taxons" => "selections#show_taxons"
+    match "selections/:id/delete" => "selections#delete"
+  
+   #taxon concepts
+   match "taxon_concepts/:id/delete" => "taxon_concepts#delete" 
+  
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -63,13 +89,4 @@ EolTranslationToolRails::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  
-  root :to => 'pages#home'
-  get   "pages/home"
-  
-  match "users/:id/change_profile" => "users#change_profile", :via => :get
-  match "users/:id/change_profile_attempt" => "users#change_profile_attempt"
-  match "users/:id/change_password", :to => "users#change_password", :via => :get
-  match "users/:id/change_password_attempt", :to => "users#change_password_attempt"
-  get "users/logout"
 end

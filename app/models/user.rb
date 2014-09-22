@@ -23,4 +23,8 @@ class User < ActiveRecord::Base
   def status
     (self.active == 1 ? I18n.t(:active) : I18n.t(:in_active))
   end
+  
+  def self.get_user_name(id)
+    User.find(id).username
+  end
 end

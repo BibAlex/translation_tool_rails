@@ -1,0 +1,208 @@
+:javascript
+  function changeClassification(id) {
+    tree.destroy();
+    document.getElementById("h_container").innerHTML = '';
+    document.getElementById("h_container").innerHTML = '<img src="../images/throbber.gif" />';
+    initTree(id);
+  }
+  function getCheckedValue(radioObj) {
+  if(!radioObj)
+  return "";
+  var radioLength = radioObj.length;
+  if(radioLength == undefined)
+  if(radioObj.checked)
+  return radioObj.value;
+  else
+  return "";
+  for(var i = 0; i < radioLength; i++) {
+  if(radioObj[i].checked) {
+  return radioObj[i].value;
+  }
+  }
+  return "";
+  }
+  function validateForm(frm) {
+  if (frm.hierarchy_entry_id.value == "0") {
+  alert("#{I18n.t(:alert_please_select_hierarchy_entry)}");
+  return false;
+  }
+  if (!validateCheckboxGroup(frm, 'text_vetted[]') && parseInt(getCheckedValue(frm.have_text)) != 0) {
+  alert("#{I18n.t(:alert_select_text_vetted_option)}");
+  return false;
+  }
+  if (!validateCheckboxGroup(frm, 'images_vetted[]') && parseInt(getCheckedValue(frm.have_image)) != 0) {
+  alert("#{I18n.t(:alert_select_image_vetted_option)}");
+  return false;
+  }
+  frm.SubmitBtn.value='Searching ...';
+  frm.SubmitBtn.disabled=true;
+  return true;
+  }
+  function validateCheckboxGroup(frm, chkboxControl) {
+  with (frm) {
+  for (var i=0; i < elements.length; i++) {
+  if (elements[i].type == 'checkbox' && elements[i].name == chkboxControl)
+  if (elements[i].checked)
+  return true;
+  }
+  }
+  return false;
+  }
+  function show_text(isShow) {
+  with (document.frm) {
+  for (var i=0; i < elements.length; i++) {
+  if (elements[i].type == 'checkbox' && elements[i].name == 'text_vetted[]')
+  elements[i].disabled = !isShow;
+  if (elements[i].type == 'radio' && elements[i].name == 'text_curated')
+  elements[i].disabled = !isShow;
+  }
+  }
+  }
+  function show_images(isShow) {
+  with (document.frm) {
+  for (var i=0; i < elements.length; i++) {
+  if (elements[i].type == 'checkbox' && elements[i].name == 'images_vetted[]')
+  elements[i].disabled = !isShow;
+  if (elements[i].type == 'radio' && elements[i].name == 'images_curated')
+  elements[i].disabled = !isShow;
+  }
+  }
+  }
+  function getRadioValue(radioControl) {
+  for (var i=0; i<radioControl.length; i++) {
+  if (radioControl[i].checked)
+  return radioControl[i].value;
+  }
+  return -1;
+  }
+  ActiveLink('select');
+  
+%script{:src => "/JsTree/source/_lib/css.js", :type => "text/javascript"}
+%script{:src => "/JsTree/source/_lib/jquery.js", :type => "text/javascript"}
+%script{:src => "/JsTree/source/_lib/jquery.listen.js", :type => "text/javascript"}
+%script{:src => "/JsTree/source/tree_component.js", :type => "text/javascript"}
+%script{:src => "/JsTree/source/_lib/sarissa.js", :type => "text/javascript"}
+%script{:src => "/JsTree/source/_lib/sarissa_ieemu_xpath.js", :type => "text/javascript"}
+%script{:src => "/JsTree/source/_lib/jquery.xslt.js", :type => "text/javascript"}
+
+
+.form
+  %h2
+    = I18n.t(:old_selection_tab_classification)
+  %form#frm{:action => "search",  :name => "frm", :onsubmit => "return validateForm(this)"}
+    %input{:name => "hierarchy_entry_id", :type => "hidden", :value => "0"}
+    %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+      %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+        %tr
+          %td.even{:colspan => "2"}
+            = load_hierarchy_list(false, 'changeClassification', DEFAULT_HIERARCHY_ID).html_safe
+        %tr
+          %td.even{:colspan => "2"}
+            #h_container{:style => "height: 250px; width: 100%; overflow: scroll"}
+            :javascript
+              var tree = new tree_component();
+              function initTree(id) {
+                tree.init($("#h_container"), {
+                data : {
+                type : "json",
+                async : true,
+                url : "/selections/hierarchy_tree?h_id=" + id
+                },
+                callback : {
+                onchange : function(NODE,TREE_OBJ) {
+                var node_id = NODE.id;
+                if (isNaN(node_id))
+                document.frm.hierarchy_entry_id.value=0;
+                else
+                document.frm.hierarchy_entry_id.value=node_id;
+                }
+                },
+                ui : { dots : true, theme_name : "apple" }
+                });
+              }
+              initTree(document.frm.lstHierarchy.value);
+        %tr
+          %td.odd{:colspan => "2"}
+            #dpath{:style => "min-height:34px"}
+        %tr
+          %td.even{:colspan => "2", :style => "text-align: center"}
+            %input{:name => "select_sub", :type => "radio", :value => "0"}
+            = I18n.t(:select_this_entry)
+            %input{:checked => "checked", :name => "select_sub", :type => "radio", :value => "1"}
+            = I18n.t(:select_this_entry_and_all_sub_entries)
+        %tr
+          %td.odd{:colspan => "2", :style => "text-align: center"}
+            %input{:checked => "checked", :name => "select_hotlists", :type => "radio", :value => "0"}
+              = I18n.t(:all_species)
+            %input{:name => "select_hotlists", :type => "radio", :value => "1"}
+            = I18n.t(:only_hotlist_species)
+            %br
+            %i 
+              = I18n.t(:hotlist)
+        %tr
+          %td.table_head 
+            = I18n.t(:text_data_objects)
+          %td.table_head
+            = I18n.t(:image_data_objects)
+        %tr
+          %td.even
+            %b
+              = I18n.t(:species_have_text)
+            %input{:checked => "checked", :name => "have_text", :onclick => "show_text(true)", :type => "radio", :value => "-1"}
+              = I18n.t(:all)
+            %input{:name => "have_text", :onclick => "show_text(true)", :type => "radio", :value => "1"}
+              = I18n.t(:users_tab_field_yes)
+            %input{:name => "have_text", :onclick => "show_text(false)", :type => "radio", :value => "0"}
+              = I18n.t(:users_tab_field_no)
+            %br/
+            %br/
+            %b
+              = I18n.t(:vetted)
+            %input{:checked => "checked", :name => "text_vetted[]", :type => "checkbox", :value => "#{VETTED_TRUSTED}"}
+              = I18n.t(:trusted)
+            %input{:checked => "checked", :name => "text_vetted[]", :type => "checkbox", :value => "#{VETTED_UNTRUSTED}"}
+              = I18n.t(:untrusted)
+            %input{:checked => "checked", :name => "text_vetted[]", :type => "checkbox", :value => "#{VETTED_UNKNOWN}"}
+              = I18n.t(:unknown)
+            %br/
+            %br/
+            %b
+              = I18n.t(:curated)
+            %input{:checked => "checked", :name => "text_curated", :type => "radio", :value => "-1"}
+              = I18n.t(:all)
+            %input{:name => "text_curated", :type => "radio", :value => "1"}
+              = I18n.t(:users_tab_field_yes)
+            %input{:name => "text_curated", :type => "radio", :value => "0"}
+              = I18n.t(:users_tab_field_no)
+          %td.even
+            %b
+              = I18n.t(:species_have_images)
+            %input{:checked => "checked", :name => "have_images", :onclick => "show_images(true)", :type => "radio", :value => "-1"}
+              = I18n.t(:all)
+            %input{:name => "have_images", :onclick => "show_images(true)", :type => "radio", :value => "1"}
+              = I18n.t(:users_tab_field_yes)
+            %input{:name => "have_images", :onclick => "show_images(false)", :type => "radio", :value => "0"}
+              = I18n.t(:users_tab_field_no)
+            %br/
+            %br/
+            %b
+              = I18n.t(:vetted)
+            %input{:checked => "checked", :name => "images_vetted[]", :type => "checkbox", :value => "#{VETTED_TRUSTED}"}
+              = I18n.t(:trusted)
+            %input{:checked => "checked", :name => "images_vetted[]", :type => "checkbox", :value => "#{VETTED_UNTRUSTED}"}
+              = I18n.t(:untrusted)
+            %input{:checked => "checked", :name => "images_vetted[]", :type => "checkbox", :value => "#{VETTED_UNKNOWN}"}
+              = I18n.t(:unknown)
+            %br/
+            %br/
+            %b
+              = I18n.t(:curated)
+            %input{:checked => "checked", :name => "images_curated", :type => "radio", :value => "-1"}
+              = I18n.t(:all)
+            %input{:name => "images_curated", :type => "radio", :value => "1"}
+              = I18n.t(:users_tab_field_yes)
+            %input{:name => "images_curated", :type => "radio", :value => "0"}
+              = I18n.t(:users_tab_field_no)
+        %tr
+          %td.table_head{:colspan => "2"}
+            %input#SubmitBtn.btn{:name => "SubmitBtn", :type => "submit", :value => "#{I18n.t(:search)}"}
