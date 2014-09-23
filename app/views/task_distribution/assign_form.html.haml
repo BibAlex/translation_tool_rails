@@ -1,0 +1,87 @@
+:javascript
+  function validateForm(frm) {
+    if (#{@taxon_concept.taxon_status_id} < 4) {
+      if (frm.scientific_reviwer.value == 0) {
+      alert("#{I18n.t(:alert_missing_scientific_reviewer)}");
+      frm.scientific_reviwer.focus();
+      return false;
+      }
+    }
+    if (#{@taxon_concept.taxon_status_id} < 5) {
+      if (frm.linguistic_reviewer.value == 0) {
+      alert("#{I18n.t(:alert_missing_linguistc_reviewer)}");
+      frm.linguistic_reviewer.focus();
+      return false;
+      }
+    }
+  }
+.content
+  %div{:style => "clear:both; height:15px;"}
+  .form_table
+    .table_of_content
+      %h2 #{I18n.t(:tab_title_task_distribution)}
+      %ul
+        = render :partial => "task_distribution/side_links"  
+    .form
+      %h2 #{I18n.t(:assign_form_title_assign_species)}
+      
+      %form{:action => "assign", :name => "frm", :onsubmit => "return validateForm(this)"}
+        %input{:name => "id", :type => "hidden", :value => "#{@taxon_concept.id}"}
+        %input{:name => "side_link", :type => "hidden", :value => "#{@side_link}"}
+        %input{:name => "back_controller", :type => "hidden", :value => "#{@controller}"}
+        %input{:name => "back_action", :type => "hidden", :value => "#{@action}"}
+        %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+        %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+          %tr
+            %td.table_head{:colspan => "2"}
+              %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{@taxon_concept.id}", :target => "_blank"}
+                = "#{@taxon_concept.scientificName}"
+          %tr
+            %td.odd{:width => "150", :style => "font-size: 12px; color: #666666;"}
+              %b #{I18n.t(:assign_form_translator)}
+            %td.even
+              - if @taxon_concept.taxon_status_id >= 3 && @side_link != "updated_species"
+                .name{:style => "font-size: 12px; color: #666666;"} 
+                  = "#{User.find(@taxon_concept.translator_id).name}"
+              - else
+                %select{:name => "translator", :id => "translator"}
+                  %option{:value => "0", :style => "width:230px;"} 
+                  - @translators.each do |translator| 
+                    - if translator.id == @taxon_concept.translator_id
+                      %option{:value => "#{translator.id}", :style => "width:230px;", :title => "#{translator.name}(#{translator.email})", :selected => "true"} #{translator.name}(#{translator.email})
+                    - else
+                      %option{:value => "#{translator.id}", :style => "width:230px;", :title => "#{translator.name}(#{translator.email})"} #{translator.name}(#{translator.email})
+          %tr
+            %td.odd{:width => "150", :style => "font-size: 12px; color: #666666;"}
+              %b #{I18n.t(:assign_form_sci_reviewer)}
+            %td.even
+              - if @taxon_concept.taxon_status_id >= 4 && @side_link != "updated_species"
+                .name{:style => "font-size: 12px; color: #666666;"} 
+                  = "#{User.find(@taxon_concept.scientific_reviewer_id).name}"
+              - else
+                %select{:name => "scientific_reviwer", :id => "scientific_reviwer"}
+                  %option{:value => "0", :style => "width:230px;"} 
+                  - @scientific_reviwers.each do |scientific_reviwer| 
+                    - if scientific_reviwer.id == @taxon_concept.scientific_reviewer_id
+                      %option{:value => "#{scientific_reviwer.id}", :style => "width:230px;", :title => "#{scientific_reviwer.name}(#{scientific_reviwer.email})", :selected => "true"} #{scientific_reviwer.name}(#{scientific_reviwer.email})
+                    - else
+                      %option{:value => "#{scientific_reviwer.id}", :style => "width:230px;", :title => "#{scientific_reviwer.name}(#{scientific_reviwer.email})"} #{scientific_reviwer.name}(#{scientific_reviwer.email})
+          %tr
+            %td.odd{:width => "150", :style => "font-size: 12px; color: #666666;"}
+              %b #{I18n.t(:assign_form_ling_reviewer)} 
+            %td.even
+              - if @taxon_concept.taxon_status_id >= 5 && @side_link != "updated_species"
+                .name{:style => "font-size: 12px; color: #666666;"} 
+                  = "#{User.find(@taxon_concept.linguistic_reviewer_id).name}"
+              - else
+                %select{:name => "linguistic_reviewer", :id => "linguistic_reviewer"}
+                  %option{:value => "0", :style => "width:230px;"} 
+                  - @linguistic_reviewers.each do |linguistic_reviewer| 
+                    - if linguistic_reviewer.id == @taxon_concept.linguistic_reviewer_id
+                      %option{:value => "#{linguistic_reviewer.id}", :style => "width:230px;", :title => "#{linguistic_reviewer.name}(#{linguistic_reviewer.email})", :selected => "true"} #{linguistic_reviewer.name}(#{linguistic_reviewer.email})
+                    - else
+                      %option{:value => "#{linguistic_reviewer.id}", :style => "width:230px;", :title => "#{linguistic_reviewer.name}(#{linguistic_reviewer.email})"} #{linguistic_reviewer.name}(#{linguistic_reviewer.email})
+          %tr
+            %td.table_head{:colspan => "2"}
+              %input.btn{:type => "submit", :value => "#{I18n.t(:button_submit)} "}
+            

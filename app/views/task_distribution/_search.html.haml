@@ -1,0 +1,106 @@
+:javascript
+  function emptyField(textObj)
+  {
+  if (textObj.value.length == 0) return true;
+  for (var i=0; i<textObj.value.length; ++i) {
+  var ch = textObj.value.charAt(i);
+  if (ch != ' ' && ch != '\t') return false;
+  }
+  return true;
+  }
+  function validateForm(frm) {
+  if (emptyField(frm.keyword)) {
+  alert("Please enter species name");
+  frm.keyword.focus();
+  return false;
+  }
+  return true;
+  }
+
+.form
+  %h2 #{I18n.t(:task_distribution_tab_table_name_search_for_species)}
+  %form{:controller => "task_distribution", :action => "index", :name => "frm", :onsubmit => "return validateForm(this)"}
+    %input{:name => "side_link", :style => "display: none;", :type => "text", :value => "search"}
+    %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+      %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
+        %tr{:style => "font-size: 12px;"}
+          %td.even{:width => "100"} #{I18n.t(:task_distribution_label_species_name)}
+          %td.even
+            %input{:name => "keyword", :style => "margin-left:5px;width:200px;", :type => "text", :value => "#{@keyword}"}
+        %tr
+          %td.odd{:colspan => "2"}
+            %center
+              %input{:type => "submit", :value => "#{I18n.t(:button_search)}"}
+      
+      - if !@keyword.nil? && @keyword != ""
+        %br
+        %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse; text-align:center;"}
+          %tr
+            %td.table_head{:colspan => "9"}
+              %center 
+                = "#{@list.count} #{I18n.t(:task_distribution_label_results_found)}"
+          %tr
+            %td.table_head
+              %center #{I18n.t(:task_distribution_tab_table_head_id)}
+            %td.table_head{:width => "300"}
+              %center #{I18n.t(:task_distribution_tab_table_head_name)}
+            %td.table_head
+              %center #{I18n.t(:task_distribution_tab_table_head_priority)}
+            %td.table_head
+              %center #{I18n.t(:task_distribution_tab_table_head_status)}
+            %td.table_head{:colspan => "2"}
+              %center #{I18n.t(:task_distribution_tab_table_head_translator)}
+            %td.table_head
+              %center #{I18n.t(:task_distribution_tab_table_head_sci_reviewer)}
+            %td.table_head
+              %center #{I18n.t(:task_distribution_tab_table_head_ling_reviewer)}
+            %td.table_head{:colspan => "2"}
+                
+          - td_class='odd'
+          - #$users = new BLL_users()
+          - @list.each do |taxon_concept|
+            - if td_class=='odd'
+              - td_class='even'
+            - else
+              - td_class='odd'
+            - selections = SelectionBatch.load_by_id(taxon_concept.selection_id)
+            - selection = selections[0]
+            %tr
+              %td{:class => "#{td_class}"} 
+                = "#{taxon_concept.id}"
+              %td{:class => "#{td_class}"}
+                %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{taxon_concept.id}", :target => "_blank"}
+                  = "#{taxon_concept.scientificName}"
+              %td{:class => "#{td_class}"}
+                = "#{Priority.find_label(selection.priority_id)}"
+              %td{:class => "#{td_class}"}
+                = "#{taxon_concept.taxon_status}"
+              %td{:class => "#{td_class}"}
+                %center 
+                  = "#{User.get_user_name(taxon_concept.translator_id)}"
+              %td{:class => "#{td_class}"}
+                %center
+                  - if taxon_concept.translator_id != 0
+                    - if taxon_concept.translator_assigned == 1
+                      = "#{I18n.t(:task_distribution_label_assigned)}"
+                    - else
+                      = "#{I18n.t(:task_distribution_label_picked)}"
+              %td{:class => "#{td_class}"}
+                %center
+                  = "#{User.get_user_name(taxon_concept.scientific_reviewer_id)}"
+              %td{:class => "#{td_class}"}
+                %center
+                  = "#{User.get_user_name(taxon_concept.linguistic_reviewer_id)}"
+              %td{:class => "#{td_class}"}
+                %center   
+                  - if taxon_concept.taxon_status_id < 5 && taxon_concept.taxon_status_id > 1
+                    = link_to "#{I18n.t(:task_distribution_label_reassign)}",{:controller => :task_distribution, 
+                    :action => :assign_form, :side_link => "search", :id => taxon_concept.id, 
+                    :selection_id => taxon_concept.selection_id}
+                  - if taxon_concept.taxon_status_id <= 1
+                    = link_to "#{I18n.t(:task_distribution_label_assign)}",{:controller => :task_distribution, 
+                    :action => :assign_form, :side_link => "search", :id => taxon_concept.id, 
+                    :selection_id => taxon_concept.selection_id}
+      %br
+        %center
+          = will_paginate @list  

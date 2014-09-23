@@ -1,8 +1,12 @@
 class Priority < ActiveRecord::Base
-  # attr_accessible :title, :body
-  
-  def self.get_label(id)
-    Priority.find(id).label
+    
+  def self.find_label(id)
+    pr = Priority.find(id) 
+    if pr
+      return pr.label
+    else
+      return ''
+    end
   end
   
   def self.load_all

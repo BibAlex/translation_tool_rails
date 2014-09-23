@@ -10,21 +10,21 @@
             = I18n.t(:task_distribution_tab_table_head_id)
           - else
             = link_to "#{I18n.t(:task_distribution_tab_table_head_id)}",
-            {:controller => :task_distribution, :action => :index, :side_link => "pending_species", :sort_by => "id"}
+            {:controller => :task_distribution, :action => :index, :side_link => "updated_species", :sort_by => "id"}
       %td.table_head
         %center
           - if @sort_by == "name"
             = I18n.t(:task_distribution_tab_table_head_name)
           - else
             = link_to "#{I18n.t(:task_distribution_tab_table_head_name)}",
-            {:controller => :task_distribution, :action => :index, :side_link => "pending_species", :sort_by => "name"}
+            {:controller => :task_distribution, :action => :index, :side_link => "updated_species", :sort_by => "name"}
       %td.table_head
         %center
           - if @sort_by == "date"
             = I18n.t(:task_distribution_tab_table_head_date)
           - else
             = link_to "#{I18n.t(:task_distribution_tab_table_head_updated_date)}",
-            {:controller => :task_distribution, :action => :index, :side_link => "pending_species", :sort_by => "date"}
+            {:controller => :task_distribution, :action => :index, :side_link => "updated_species", :sort_by => "date"}
       %td.table_head
         %center #{I18n.t(:task_distribution_tab_table_head_text)}
       %td.table_head
@@ -33,3 +33,39 @@
         %center #{I18n.t(:task_distribution_tab_table_head_audio_video)}
       %td.table_head
         %center #{I18n.t(:task_distribution_tab_table_head_assign)}
+    - td_class = 'odd'
+    - @list.each do |taxon_concept| 
+      - #$selection_batch = BLL_selection_batches::load_by_id($taxon_concept->selection_id); 
+      - if td_class == 'odd'
+        - td_class = 'even'
+      - else 
+        - td_class = 'odd'
+      %tr
+        %td{:class => "#{td_class}"}
+          = "#{taxon_concept.id}"
+        %td{:class => "#{td_class}"}
+          %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{taxon_concept.id}", :target => "_blank"}
+            = "#{taxon_conceptscientificName}"
+        %td{:class => "#{td_class}"}
+          %center 
+            = "#{taxon_concept.selection_date}"
+        %td{:class => "#{td_class}"}
+          %center 
+            = "#{DataObject.get_text_count(taxon_concept.id)}"
+        %td{:class => "#{td_class}"}
+          %center 
+            = "#{DataObject.get_images_count(taxon_concept.id)}"
+        %td{:class => "#{td_class}"}
+          %center 
+            = "#{DataObject.get_av_count(taxon_concept.id)}"
+        %td{:class => "#{td_class}"}
+          %center
+            = link_to "#{I18n.t(:task_distribution_label_assign)}",{:controller => :task_distribution, 
+            :action => :assign_form, :side_link => "updated_species", :id => taxon_concept.id, 
+            :selection_id => taxon_concept.selection_id, :back_controller => "task_distribution",
+            :back_action => "index"}
+  #ie6SelectTooltip{:style => "display:none;position:absolute;padding:1px;border:1px solid #333333;;background-color:#fffedf;font-size:smaller;"}
+  %br
+    %center
+      = will_paginate @list    
+      

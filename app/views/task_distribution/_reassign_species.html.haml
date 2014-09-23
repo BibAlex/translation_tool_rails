@@ -19,3 +19,53 @@
       %td.table_head
         %center #{I18n.t(:task_distribution_tab_table_head_ling_reviewer)}
       %td.table_head{:colspan => "2"}
+        
+    - td_class = 'odd'
+    - users = User.new
+    - for i in 0..@list.count-1
+      - if td_class == 'odd'
+        - td_class = 'even'
+      - else
+        - td_class = 'odd'
+      - #selections = BLL_selection_batches::load_by_id(@list[i].selection_id);
+      - #selection = $selections[0];
+      %tr
+        %td.td_class #{@list[i].id}
+        %td.td_class
+          %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{@list[i].id}", :target => "_blank"}
+            = "#{@list[i].scientificName}"
+        %td.td_class #{@list[i].priority}
+        %td{:class => "#{td_class}"} #{@list[i].taxon_status}
+        %td.td_class
+          %center 
+            = "#{User.get_user_name(@list[i].translator_id)}"
+        %td{:class => "#{td_class}"}
+          %center
+            - if @list[i].translator_id != 0
+              - if @list[i].translator_assigned == 1
+                = "#{I18n.t(:task_distribution_label_assigned)}"
+              - else
+                = "#{I18n.t(:task_distribution_label_picked)}"
+        %td{:class => "#{td_class}"}
+          %center
+            = "#{User.get_user_name(@list[i].scientific_reviewer_id)}"
+        %td{:class => "#{td_class}"}
+          %center
+            = "#{User.get_user_name(@list[i].linguistic_reviewer_id)}"
+        %td{:class => "#{td_class}"}
+          %center 
+            - if @list[i].taxon_status_id < 5 && @list[i].taxon_status_id > 1
+              = link_to "#{I18n.t(:task_distribution_label_reassign)}",{:controller => :task_distribution, 
+              :action => :assign_form, :side_link => "reassign_species", :id => @list[i].id, 
+              :selection_id => @list[i].selection_id, :back_controller => "task_distribution",
+              :back_action => "index"}
+              
+            - if @list[i].taxon_status_id <=1
+              = link_to "#{I18n.t(:task_distribution_label_assign)}",{:controller => :task_distribution, 
+              :action => :assign_form, :side_link => "reassign_species", :id => @list[i].id, 
+              :selection_id => @list[i].selection_id, :back_controller => "task_distribution",
+              :back_action => "index"}
+  #ie6SelectTooltip{:style => "display:none;position:absolute;padding:1px;border:1px solid #333333;;background-color:#fffedf;font-size:smaller;"}
+  %br
+    %center
+      = will_paginate @list
