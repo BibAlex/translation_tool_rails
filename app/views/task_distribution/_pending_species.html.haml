@@ -2,7 +2,7 @@
   %h2 #{I18n.t(:task_distribution_tab_table_name_pending_species)} (#{@count}) 
   %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
 
-%div{:style => "border:1px solid #C6C6C6;"}
+%div{:style => "border:1px solid #C6C6C6; font-size: 12px;"}
   %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
     %tr
       %td.table_head
@@ -56,23 +56,21 @@
       - else
         - td_class='odd'
       %tr
+        %td{:class => "#{td_class}"} #{taxon_concept.id}
         %td{:class => "#{td_class}"}
-          = #{taxon_concept.id}
+          %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{taxon_concept.id}", :target => "_blank"} #{taxon_concept.scientificName}
         %td{:class => "#{td_class}"}
-          %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{I18n.t(:taxon_concept.id)}", :target => "_blank"}
-            = #{taxon_concept.scientificName}
+          %center #{taxon_concept.selection_date}
         %td{:class => "#{td_class}"}
-          %center = #{taxon_concept.selection_date}
+          %center #{taxon_concept.priority}
         %td{:class => "#{td_class}"}
-          %center = #{taxon_concept.priority}
+          %center #{taxon_concept.selected_by}
         %td{:class => "#{td_class}"}
-          %center = #{taxon_concept.selected_by}
+          %center #{DataObject.get_text_count(taxon_concept.id)}
         %td{:class => "#{td_class}"}
-          %center = #{DataObject.get_text_count(taxon_concept.id)}
+          %center #{DataObject.get_images_count(taxon_concept.id)}
         %td{:class => "#{td_class}"}
-          %center = #{DataObject.get_images_count(taxon_concept.id)}
-        %td{:class => "#{td_class}"}
-          %center = #{DataObject.get_av_count(taxon_concept.id)}
+          %center #{DataObject.get_av_count(taxon_concept.id)}
         %td{:class => "#{td_class}"}
           %center
             = link_to "#{I18n.t(:task_distribution_label_assign)}",{:controller => :task_distribution, 

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_filter :restrict_login, except: [:login, :login_attempt]
                                         
   before_filter :check_authentication, except: [:login, :new, :create, :index, :logout,
-                                                :login_attempt]
+                                                :login_attempt, :edit, :update]
   
   def new
     @id = 0
