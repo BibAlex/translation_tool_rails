@@ -228,9 +228,11 @@ class CreateNewDb < ActiveRecord::Migration
     end
   
     # DROP TABLE IF EXISTS 'status';
-    create_table "status", :force => true do |t|
+    create_table "statuses", :force => true do |t|
       t.string "label", :limit => 45, :default => "", :null => false
+      t.string "role", :limit => 45, :default => "", :null => false
       t.boolean "directly_assigned",  :default => false, :null => false
+      
     end
   
     # DROP TABLE IF EXISTS 'table_of_contents';
@@ -295,7 +297,7 @@ class CreateNewDb < ActiveRecord::Migration
     end
   
     # DROP TABLE IF EXISTS 'update_status';
-    create_table "update_status", :force => true do |t|
+    create_table "update_statuses", :force => true do |t|
       t.string "name", :limit => 200
     end
   
@@ -361,7 +363,7 @@ class CreateNewDb < ActiveRecord::Migration
     end
     
     # DROP TABLE IF EXISTS 'users_status';
-    create_table "users_status", :force => true do |t|
+    create_table "users_statuses", :force => true do |t|
       t.integer "user_id", :null => false
       t.integer "status_id", :null => false
     end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+  include ApplicationHelper
   layout 'pages'
   before_filter :restrict_login, except: [:login, :login_attempt]
                                         
@@ -171,13 +171,13 @@ class UsersController < ApplicationController
     session[:user_id] = user.id
     session[:name] = user.name 
     session[:selector] = user.selector
-    session[:task_distributor] = user.task_distributor
-    session[:translator] = user.translator
-    session[:scientific_reviewer] = user.scientific_reviewer
-    session[:linguistic_reviewer] = user.linguistic_reviewer
-    session[:final_editor] = user.final_editor
-    session[:task_distributor] = user.task_distributor
     session[:super_admin] = user.super_admin
+    user_status_list = UsersStatus.where(user_id: user.id)
+    roles = ""
+    user_status_list.each do |user_status|
+      roles += Status.find(user_status.status_id).label + "," 
+    end
+    session[:roles] = roles
   end
   
   def log_out

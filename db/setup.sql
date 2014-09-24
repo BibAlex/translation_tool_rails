@@ -1,3 +1,3 @@
-LOCK TABLE `status` WRITE;
-INSERT INTO `status` (`label`, `directly_assigned`) VALUES ('Distribution', '1') , ('Translation', '1') , ('Scientific Review', '1') , ('Linguistic Review', '1') , ('Final Editing', '1') , ('test', '0');
+LOCK TABLE `statuses` WRITE;
+INSERT INTO `statuses` (`label`, `directly_assigned`, `role`) VALUES ('Distribution', '1', 'Distributor') , ('Translation', '1', 'Translator') , ('Scientific Review', '1', 'Scientific Reviewer') , ('Linguistic Review', '1', 'Linguistic Reviewer') , ('Final Editing', '1', 'Final Editor') , ('test', '0', 'tester');
 UNLOCK TABLES;
