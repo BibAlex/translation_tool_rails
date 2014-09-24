@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
    belongs_to :country
+   has_many :statuses
    attr_accessible :name, :email, :country_id, :password, :active, :username, :super_admin, 
                     :selector, :task_distributor, :translator, :scientific_reviewer,
                     :linguistic_reviewer, :final_editor
@@ -43,5 +44,17 @@ class User < ActiveRecord::Base
     
   def self.get_all_scientific_reviewers
     User.where(scientific_reviewer: 1)
+  end
+  
+  def has_privilige?(status_id)
+    result = UsersStatus.where("user_id = ? and status_id = ?", self.id, status_id)
+    result.first.nil? ? false : true 
+  end
+  
+  def delete_all_roles
+    records = UsersStatus.where("user_id = ? ", self.id)
+    records.each do |record|
+      record.destroy if record
+    end
   end
 end
