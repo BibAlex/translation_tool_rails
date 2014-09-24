@@ -238,4 +238,11 @@ en:
   old_selection_tab_selection_tool: "Selection Tool"
   old_selection_tab_new_selection: "New Selection"
   old_selection_tab_classification: "Classification"
+  
+  #translations
+  translation_tab_your_species_list: "Your Species List"
+  translation_tab_pending_species: "Pending Species"
+  translation_tab_completed_species: "Completed Species"
+  translation_tab_search: "Pick new Species"
+  select_species_from_list: "Select species you need to work on from the list"
 

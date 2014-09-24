@@ -28,7 +28,7 @@
               = User.get_user_name(selection.user_id)
           %td{:class => "#{@td_class}"}
             %center
-              = Priority.get_label(selection.priority_id)
+              = Priority.find_label(selection.priority_id)
           %td{:class => "#{@td_class}"}
             %center
               %a{:href => "/selections/#{selection.id}/show_taxons"} 

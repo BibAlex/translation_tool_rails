@@ -19,7 +19,7 @@
         %li
           #trans_l.left_side
           #trans_m.link_middle
-            %a{:href => "../list/mylist.php?process=2"} #{I18n.t(:tab_title_translation)}
+            = link_to "#{I18n.t(:tab_title_translation)}",{:controller => :translations, :action => :pending_species}
           #trans_r.right_side
           
       - if session['scientific_reviewer'] == 1

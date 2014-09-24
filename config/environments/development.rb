@@ -41,7 +41,7 @@ EolTranslationToolRails::Application.configure do
   VETTED_UNKNOWN = 1
   VETTED_TRUSTED = 4
   VETTED_UNTRUSTED =2 
-  EOL_SITE_URL = 'localhost'
+  EOL_SITE_URL = 'http://www.eol.org'
   VISIBILITY_INVISIBLE =  '0'
   LANGUAGE_EN = '1'
   DATA_TYPES_TEXT = '3'

@@ -1,0 +1,31 @@
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  = render :partial => "layouts/header"
+  %body
+    .wrapper
+      = render :partial => "layouts/top"  
+      - if !session[:user_id].nil?
+        = render :partial => "layouts/tabs" 
+      .content
+        .title
+          = I18n.t(:select_species_from_list)  
+        %div{:style => "clear:both;"}
+        .form_table
+          .table_of_content
+            %h2
+              = I18n.t(:translation_tab_your_species_list)
+            %ul
+              %li.toc
+                - pending_tab_style = params[:action] == 'pending_species' ? I18n.t(:active_table_of_content_style) : ""
+                %a{:href => "/translations/pending_species", :style => pending_tab_style}
+                  = I18n.t(:translation_tab_pending_species)
+              %li.toc
+                - completed_tab_style = params[:action] == 'completed_species' ? I18n.t(:active_table_of_content_style) : ""
+                %a{:href => "/translations/completed_species", :style => completed_tab_style}
+                  = I18n.t(:translation_tab_completed_species)
+              - if params[:controller] == "translations"
+                %li.toc
+                  - search_tab_style = params[:action] == 'search' ? I18n.t(:active_table_of_content_style) : ""
+                  %a{:href => "/translations/search", :style => search_tab_style}
+                    = I18n.t(:translation_tab_search)
+          = yield
+      = render :partial => "layouts/footer"
