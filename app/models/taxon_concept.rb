@@ -299,6 +299,7 @@ class TaxonConcept < ActiveRecord::Base
  
  
   def self.assign_taxon(id, translator_id, linguistic_reviewer_id, scientific_reviewer_id)
+    debugger
     taxon_concept = TaxonConcept.find(id)
     taxon_concept.update_attributes(taxon_status_id: 2, translator_id: translator_id,
     linguistic_reviewer_id: linguistic_reviewer_id, scientific_reviewer_id: scientific_reviewer_id)

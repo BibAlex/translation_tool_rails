@@ -68,6 +68,7 @@ class TaskDistributionController < ApplicationController
                                           @taxon_concept.scientific_reviewer_id,
                                           old_scientific_reviewer_id)
     else
+      debugger
       TaxonConcept.assign_taxon(@taxon_concept.id,
                                 @taxon_concept.translator_id,
                                 @taxon_concept.linguistic_reviewer_id,
@@ -80,7 +81,6 @@ class TaskDistributionController < ApplicationController
   
 private 
   def update_translator
-    debugger
      # if a new translator may be selected
      if params[:side_link] == "updated_species" ||
        ( @taxon_concept.taxon_status_id < 3 &&  @taxon_concept.translator_id != params["translator"].to_i)
@@ -108,10 +108,9 @@ private
    end
    
    def update_scientific_reviewer
-     debugger
      if params[:side_link] == "updated_species" ||
        ( @taxon_concept.taxon_status_id < 4 &&  @taxon_concept.scientific_reviewer_id != params["scientific_reviewer"].to_i)
-       @taxon_concept.scientific_reviewer_id = params["scientific_reviwer"].to_i
+       @taxon_concept.scientific_reviewer_id = params["scientific_reviewer"].to_i
        if  @taxon_concept.taxon_status_id == 3 && params[:side_link] != "updated_species"
          user = User.find(params["scientific_reviwer"].to_i)
          if user.active == 1 && user.email != '' 
@@ -124,7 +123,6 @@ private
    end
    
    def update_linguistic_reviewer
-     debugger
      if params[:side_link] == "updated_species" ||
         ( @taxon_concept.taxon_status_id < 5 &&  @taxon_concept.linguistic_reviewer_id != params["linguistic_reviewer"].to_i)
        @taxon_concept.linguistic_reviewer_id = params["linguistic_reviewer"].to_i

@@ -32,7 +32,7 @@
       %tr
         %td.td_class #{@list[i].id}
         %td.td_class
-          %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{@list[i].id}", :target => "_blank"}
+          %a{:href => "#{I18n.t(:url_eol)}/pages/#{@list[i].id}", :target => "_blank"}
             = "#{@list[i].scientificName}"
         %td.td_class #{@list[i].priority}
         %td{:class => "#{td_class}"} #{@list[i].taxon_status}
