@@ -34,7 +34,7 @@
         %table{:border => "0", :cellpadding => "3", :cellspacing => "0", :style => "border-collapse:collapse", :width => "100%"}
           %tr
             %td.table_head{:colspan => "2"}
-              %a{:href => "#{I18n.t(:url_eol_bibalex)}/pages/#{@taxon_concept.id}", :target => "_blank"}
+              %a{:href => "#{I18n.t(:url_eol)}/pages/#{@taxon_concept.id}", :target => "_blank"}
                 = "#{@taxon_concept.scientificName}"
           %tr
             %td.odd{:width => "150", :style => "font-size: 12px; color: #666666;"}
@@ -59,13 +59,13 @@
                 .name{:style => "font-size: 12px; color: #666666;"} 
                   = "#{User.find(@taxon_concept.scientific_reviewer_id).name}"
               - else
-                %select{:name => "scientific_reviwer", :id => "scientific_reviwer"}
+                %select{:name => "scientific_reviewer", :id => "scientific_reviewer"}
                   %option{:value => "0", :style => "width:230px;"} 
-                  - @scientific_reviwers.each do |scientific_reviwer| 
-                    - if scientific_reviwer.id == @taxon_concept.scientific_reviewer_id
-                      %option{:value => "#{scientific_reviwer.id}", :style => "width:230px;", :title => "#{scientific_reviwer.name}(#{scientific_reviwer.email})", :selected => "true"} #{scientific_reviwer.name}(#{scientific_reviwer.email})
+                  - @scientific_reviwers.each do |scientific_reviewer| 
+                    - if scientific_reviewer.id == @taxon_concept.scientific_reviewer_id
+                      %option{:value => "#{scientific_reviewer.id}", :style => "width:230px;", :title => "#{scientific_reviewer.name}(#{scientific_reviewer.email})", :selected => "true"} #{scientific_reviewer.name}(#{scientific_reviewer.email})
                     - else
-                      %option{:value => "#{scientific_reviwer.id}", :style => "width:230px;", :title => "#{scientific_reviwer.name}(#{scientific_reviwer.email})"} #{scientific_reviwer.name}(#{scientific_reviwer.email})
+                      %option{:value => "#{scientific_reviewer.id}", :style => "width:230px;", :title => "#{scientific_reviewer.name}(#{scientific_reviewer.email})"} #{scientific_reviewer.name}(#{scientific_reviewer.email})
           %tr
             %td.odd{:width => "150", :style => "font-size: 12px; color: #666666;"}
               %b #{I18n.t(:assign_form_ling_reviewer)} 

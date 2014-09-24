@@ -30,7 +30,7 @@ en:
   #static urls
   url_bibalex: "http://www.bibalex.org"
   url_eol_bibalex: "eol@bibalex.org"
-  
+  url_eol: "http://www.eol.org"
   #images
   image_alt_BA_Logo: "Bibliotheca Alexandrina"
   

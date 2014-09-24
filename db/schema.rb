@@ -11,27 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 20140924070621) do
 
   create_table "Unique_DO", :id => false, :force => true do |t|
     t.integer "data_object_id", :null => false
   end
 
   create_table "a_data_objects", :force => true do |t|
-    t.integer  "user_id",                                    :null => false
-    t.integer  "process_id",                                 :null => false
-    t.string   "object_title",           :limit => 500
-    t.string   "rights_statement",       :limit => 500
-    t.string   "rights_holder",          :limit => 500
-    t.text     "description",            :limit => 16777215
+    t.integer  "user_id",                              :null => false
+    t.integer  "process_id",                           :null => false
+    t.string   "object_title",     :limit => 500
+    t.string   "rights_statement", :limit => 500
+    t.string   "rights_holder",    :limit => 500
+    t.text     "description",      :limit => 16777215
     t.datetime "modified_at"
     t.boolean  "locked"
     t.integer  "taxon_concept_id"
-    t.string   "location",               :limit => 500
-    t.integer  "translator_id"
-    t.integer  "linguistic_reviewer_id"
-    t.integer  "scientific_reviewer_id"
-    t.integer  "final_editor_id"
+    t.string   "location",         :limit => 500
     t.integer  "update_status_id"
   end
 
@@ -63,7 +59,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string "name", :limit => 45
   end
 
-  create_table "country", :force => true do |t|
+  create_table "countries", :force => true do |t|
     t.string "name", :limit => 80, :default => "", :null => false
   end
 
@@ -142,7 +138,7 @@ ActiveRecord::Schema.define(:version => 1) do
 
   add_index "data_types", ["label"], :name => "label"
 
-  create_table "glossary", :primary_key => "letter", :force => true do |t|
+  create_table "glossaries", :primary_key => "letter", :force => true do |t|
     t.text "text"
   end
 
@@ -220,7 +216,8 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "status", :force => true do |t|
-    t.string "label", :limit => 45, :default => "", :null => false
+    t.string  "label",             :limit => 45, :default => "",    :null => false
+    t.boolean "directly_assigned",               :default => false, :null => false
   end
 
   create_table "table_of_contents", :force => true do |t|
@@ -231,11 +228,12 @@ ActiveRecord::Schema.define(:version => 1) do
 
   add_index "table_of_contents", ["label"], :name => "label"
 
-  create_table "taxon_concept_assign_log", :force => true do |t|
+  create_table "taxon_concept_assign_logs", :force => true do |t|
     t.integer  "taxon_concept_id"
     t.integer  "user_id"
     t.integer  "phase_id"
     t.datetime "assign_date"
+    t.datetime "finish_date"
     t.integer  "by_user_id"
   end
 
@@ -259,27 +257,16 @@ ActiveRecord::Schema.define(:version => 1) do
   add_index "taxon_concept_names", ["vern"], :name => "vern"
 
   create_table "taxon_concepts", :force => true do |t|
-    t.integer  "supercedure_id",                                           :null => false
-    t.integer  "split_from",                                               :null => false
-    t.integer  "vetted_id",              :limit => 1,   :default => 0,     :null => false
-    t.integer  "published",              :limit => 1,   :default => 0,     :null => false
-    t.integer  "selection_id",                          :default => 0,     :null => false
-    t.integer  "translator_id",                         :default => 0,     :null => false
-    t.boolean  "translator_assigned",                   :default => false, :null => false
-    t.integer  "linguistic_reviewer_id",                :default => 0,     :null => false
-    t.boolean  "linguistic_assigned",                   :default => false, :null => false
-    t.integer  "scientific_reviewer_id",                :default => 0,     :null => false
-    t.integer  "final_editor_id",                       :default => 0,     :null => false
-    t.integer  "taxon_status_id",                       :default => 0,     :null => false
-    t.string   "scientificName",         :limit => 500, :default => "'",   :null => false
+    t.integer  "supercedure_id",                                  :null => false
+    t.integer  "split_from",                                      :null => false
+    t.integer  "vetted_id",       :limit => 1,   :default => 0,   :null => false
+    t.integer  "published",       :limit => 1,   :default => 0,   :null => false
+    t.integer  "selection_id",                   :default => 0,   :null => false
+    t.integer  "taxon_status_id",                :default => 0,   :null => false
+    t.string   "scientificName",  :limit => 500, :default => "'", :null => false
     t.datetime "selection_date"
-    t.datetime "taskdistribution_date"
-    t.datetime "translation_date"
-    t.datetime "linguisticreview_date"
-    t.datetime "scientificreview_date"
-    t.datetime "finalediting_date"
     t.datetime "publish_date"
-    t.boolean  "taxon_update",                                             :null => false
+    t.boolean  "taxon_update",                                    :null => false
   end
 
   add_index "taxon_concepts", ["published"], :name => "published"
@@ -338,25 +325,25 @@ ActiveRecord::Schema.define(:version => 1) do
 
   add_index "updated_data_objects_taxon_concepts", ["data_object_id"], :name => "data_object_id"
 
-  create_table "updated_harvest_batch", :force => true do |t|
+  create_table "updated_harvest_batches", :force => true do |t|
     t.datetime "harvest_date"
   end
 
   create_table "users", :force => true do |t|
-    t.string  "name",                :limit => 150, :default => "", :null => false
-    t.string  "username",            :limit => 50,  :default => "", :null => false
-    t.string  "password",            :limit => 50,  :default => "", :null => false
-    t.integer "super_admin",         :limit => 1,   :default => 0,  :null => false
-    t.integer "task_distributor",    :limit => 1,   :default => 0,  :null => false
-    t.integer "translator",          :limit => 1,   :default => 0,  :null => false
-    t.integer "linguistic_reviewer", :limit => 1,   :default => 0,  :null => false
-    t.integer "scientific_reviewer", :limit => 1,   :default => 0,  :null => false
-    t.integer "final_editor",        :limit => 1,   :default => 0,  :null => false
-    t.integer "active",              :limit => 1,   :default => 0,  :null => false
-    t.integer "selector",            :limit => 1,   :default => 0,  :null => false
-    t.string  "email",               :limit => 100, :default => "", :null => false
-    t.integer "country_id",                         :default => 0,  :null => false
-    t.integer "it_admin",            :limit => 1,   :default => 0
+    t.string  "name",        :limit => 150, :default => "", :null => false
+    t.string  "username",    :limit => 50,  :default => "", :null => false
+    t.string  "password",    :limit => 50,  :default => "", :null => false
+    t.integer "super_admin", :limit => 1,   :default => 0,  :null => false
+    t.integer "active",      :limit => 1,   :default => 0,  :null => false
+    t.integer "selector",    :limit => 1,   :default => 0,  :null => false
+    t.string  "email",       :limit => 100, :default => "", :null => false
+    t.integer "country_id",                 :default => 0,  :null => false
+    t.integer "it_admin",    :limit => 1,   :default => 0
+  end
+
+  create_table "users_status", :force => true do |t|
+    t.integer "user_id",   :null => false
+    t.integer "status_id", :null => false
   end
 
 end

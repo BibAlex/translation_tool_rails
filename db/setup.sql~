@@ -1,0 +1,3 @@
+LOCK TABLE `status` WRITE;
+INSERT INTO `status` (`label`, `directly_assigned`) VALUES ('Distribution', '') , ('Translation', '1') , ('Scientific Review', '1') , ('Linguistic Review', '1') , ('Final Editing', '1') , ('test', '0');
+UNLOCK TABLES;

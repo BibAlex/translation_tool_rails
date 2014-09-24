@@ -1,8 +1,3 @@
-- if @id != 0 && @user.id.nil? 
-  :javascript
-    alert('user does not exist!');
-    window.location='../users/index';
-    
 .content    
   %fieldset
     %legend
@@ -12,7 +7,7 @@
         = I18n.t(:users_tab_legend_edit_user)
     = validation_errors_for(@user)
     
-    - if (@pending_translations.count > 0)
+    - if params[:action] == "edit" && @pending_translations.count > 0
       = #{I18n.t(:users_tab_message_translation_tasks)}
       - if (params[:task_distributor].to_i == 1)
         - @pending_translations.each do |taxon_concept|
@@ -21,7 +16,7 @@
             -# = '<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>'
         %br
         
-    - if (@pending_ling_reviews.count > 0)
+    - if params[:action] == "edit" && @pending_ling_reviews.count > 0
       = #{I18n.t(:users_tab_message_linguistic_review_tasks)} 
       - if (params[:task_distributor].to_i == 1)
         - @pending_ling_reviews.each do |taxon_concept|
@@ -30,7 +25,7 @@
           - #'<li><a href="../task_distribution/reassign_species.php?id='.$taxon_concept->id.'&selection_id='.$taxon_concept->selection_id.'" target="_blank">'.$taxon_concept->scientificName.'</a></li>';
         %br
         
-    - if (@pending_scientific_reviews.count > 0)
+    - if params[:action] == "edit" && @pending_scientific_reviews.count > 0
       = #{I18n.t(:users_tab_message_scientific_review_tasks)} 
       - if (params[:task_distributor].to_i == 1)
         - @pending_scientific_reviews.each do |taxon_concept|
