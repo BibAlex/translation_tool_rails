@@ -26,7 +26,7 @@
           %b
             = I18n.t(:priority)
         %td.even
-          =Priority.get_label(@selection.priority_id)
+          =Priority.find_label(@selection.priority_id)
       %tr
         %td.odd
           %b

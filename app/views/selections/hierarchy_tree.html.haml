@@ -1,5 +1,7 @@
 [
-- @hierarchy_entries.each_with_index do |he|
+- @hierarchy_entries.each_with_index do |he, i|
+  - if i > 1
+    = ",\n"
   {attributes: {
   ="id: '#{he.id}', "
   ="taxon_concept: '#{he.clean_taxon_concept}'"
