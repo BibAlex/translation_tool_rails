@@ -175,9 +175,9 @@ class UsersController < ApplicationController
     session[:selector] = user.selector
     session[:super_admin] = user.super_admin
     user_status_list = UsersStatus.where(user_id: user.id)
-    roles = ""
+    roles = []
     user_status_list.each do |user_status|
-      roles += Status.find(user_status.status_id) + "," 
+      roles << Status.find(user_status.status_id)
     end
     session[:roles] = roles
   end

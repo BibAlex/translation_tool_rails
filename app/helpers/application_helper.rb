@@ -7,4 +7,5 @@ module ApplicationHelper
   def get_roles_array(roles)
     roles.split(',')
   end
+  
 end
