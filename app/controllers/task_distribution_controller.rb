@@ -17,14 +17,14 @@ class TaskDistributionController < ApplicationController
       @page_title = "#{I18n.t(:task_distribution_tab_side_link_updated_species)}"
       @count = TaxonConcept.get_updated_taxons_count 
       @list = TaxonConcept.get_updated_taxons(params[:page], @sort_by)
-    elsif params[:side_link] == "pending_tasks"
-      @page_title = "#{I18n.t(:task_distribution_tab_side_link_pending_tasks)}"
-      @list = SelectionBatch.load_all(params[:page], 0)
-#      @count = get_pending_batches_count
-      @count = @list.count
-    elsif params[:side_link] == "finished_tasks"
-      @page_title = "#{I18n.t(:task_distribution_tab_side_link_finished_tasks)}"
-      @list = SelectionBatch.load_all(params[:page], 1)
+#    elsif params[:side_link] == "pending_tasks"
+#      @page_title = "#{I18n.t(:task_distribution_tab_side_link_pending_tasks)}"
+#      @list = SelectionBatch.load_all(params[:page], 0)
+##      @count = get_pending_batches_count
+#      @count = @list.count
+#    elsif params[:side_link] == "finished_tasks"
+#      @page_title = "#{I18n.t(:task_distribution_tab_side_link_finished_tasks)}"
+#      @list = SelectionBatch.load_all(params[:page], 1)
     else
       @page_title = "#{I18n.t(:task_distribution_tab_side_link_search)}"
       #side_link = search
@@ -49,15 +49,21 @@ class TaskDistributionController < ApplicationController
   end
   
  
-  
+  def delete_from_hash(hash, delete_list)
+    delete_list.each do |dl|
+      hash.delete(dl)
+    end
+    hash
+  end
   def assign
+    delete_list = ["id","side_link", "back_controller", "back_action", 
+                   "Distributor","controller", "action"]
+    roles_values = params
+    roles_values = delete_from_hash(roles_values, delete_list)
+    debugger
     @taxon_concept = TaxonConcept.find(params[:id])
-    old_translator_id =  @taxon_concept.translator_id
-    old_scientific_reviewer_id =  @taxon_concept.scientific_reviewer_id
-    old_linguistic_reviewer_id =  @taxon_concept.linguistic_reviewer_id
-    update_translator
-    update_scientific_reviewer
-    update_linguistic_reviewer
+    
+    
     
     if params[:side_link] == "updated_species"
       TaxonConcept.reassign_updated_taxon(@taxon_concept.id, 
@@ -68,7 +74,6 @@ class TaskDistributionController < ApplicationController
                                           @taxon_concept.scientific_reviewer_id,
                                           old_scientific_reviewer_id)
     else
-      debugger
       TaxonConcept.assign_taxon(@taxon_concept.id,
                                 @taxon_concept.translator_id,
                                 @taxon_concept.linguistic_reviewer_id,
@@ -80,60 +85,42 @@ class TaskDistributionController < ApplicationController
   end
   
 private 
-  def update_translator
-     # if a new translator may be selected
-     if params[:side_link] == "updated_species" ||
-       ( @taxon_concept.taxon_status_id < 3 &&  @taxon_concept.translator_id != params["translator"].to_i)
-       @taxon_concept.translator_id = params["translator"].to_i
-       # if no one is selected (send to all users)
-       if params["translator"].to_i == 0 
-         users = User.all
-         users.each do |user|
-           if user.active == 1 && user.translator == 1 && user.email != ''
-   #          $message = 'Hi '.$user->name.',<br><br>New species ready for translation ('.$taxon_concept->scientificName.')<br><br>'.
-   #          '<a target="_blank" href="'.$AEOL_url.'/eol_translation/applications/translation/list/poollist.php?process=2&id='.$id.'">Click here</a> to pick this species'
-   #          SendMail.send_email(user.name, user.email, 'AEOL: New species ready for translation', message)
-           end 
-         end
-       else
-         user = User.find(params["translator"])
-         if user.active == 1 && user.email != ''
-   #        $message = 'Hi '.$user[0]->name.',<br><br>New species ready for translation ('.$taxon_concept->scientificName.')<br><br>'.
-   #        '<a target="_blank" href="'.$AEOL_url.'/eol_translation/applications/translation/details/species.php?tid='.$id.'&trstatus=2&process=2">Click here</a> to translate this species';
-   #        SendMail.send_email(user.email, 'AEOL: New species has been assigned', message)
-         end
-       end
-       TaxonConceptAssignLog.taxon_concept_assign_log(params[:id], params["translator"].to_i, 2, session[:user_id])
-     end
-   end
-   
-   def update_scientific_reviewer
-     if params[:side_link] == "updated_species" ||
-       ( @taxon_concept.taxon_status_id < 4 &&  @taxon_concept.scientific_reviewer_id != params["scientific_reviewer"].to_i)
-       @taxon_concept.scientific_reviewer_id = params["scientific_reviewer"].to_i
-       if  @taxon_concept.taxon_status_id == 3 && params[:side_link] != "updated_species"
-         user = User.find(params["scientific_reviwer"].to_i)
-         if user.active == 1 && user.email != '' 
- #          $message = 'New species ready for revision <br><br>'.$taxon_concept->scientificName;
- #          SendMail::send_email($user[0]->email, 'AEOL: New species have been assigned for revision', 'New species have been assigned for revision<br><br>'.$taxon_concept->scientificName);
-         end
-       end
-       TaxonConceptAssignLog.taxon_concept_assign_log(params[:id], params["scientific_reviwer"].to_i, 3, session[:user_id])
-     end 
-   end
-   
-   def update_linguistic_reviewer
-     if params[:side_link] == "updated_species" ||
-        ( @taxon_concept.taxon_status_id < 5 &&  @taxon_concept.linguistic_reviewer_id != params["linguistic_reviewer"].to_i)
-       @taxon_concept.linguistic_reviewer_id = params["linguistic_reviewer"].to_i
-       if  @taxon_concept.taxon_status_id == 4 && params[:side_link] != "updated_species"
-         user = User.find(params["linguistic_reviewer"].to_i)
-         if user.active == 1 && user.email != ''
- #          $message = 'New species ready for revision <br><br>'.$taxon_concept->scientificName;
- #          SendMail::send_email($user[0]->email, 'AEOL: New species have been assigned for revision', 'New species have been assigned for revision<br><br>'.$taxon_concept->scientificName);
-         end
-       end
-       TaxonConceptAssignLog.taxon_concept_assign_log(params[:id], params["linguistic_reviewer"].to_i, 4, session[:user_id])
-     end
-   end
+  
+  def must_assign_but_not(phase,  role_value)
+    # it is select, has no value and it directly assign 
+   user.nil?  && phase.dircectly_assigned
+  end
+  
+  def return_to_pool(phase, user)
+    user.nil?  && !phase.dircectly_assigned
+  end
+    
+  def update_role(phase, user)
+    if must_assign_but_not
+      # return error missing role
+    end
+    
+    if return_to_pool
+      # send mail to all responsibles
+      users = UsersStatus.get_users_of_specified_phase(phase.id)
+      users.each do |user|
+        if user.active == 1 && user.email != ''
+ #          $message = 'Hi '.$user->name.',<br><br>New species ready for translation ('.$taxon_concept->scientificName.')<br><br>'.
+ #          '<a target="_blank" href="'.$AEOL_url.'/eol_translation/applications/translation/list/poollist.php?process=2&id='.$id.'">Click here</a> to pick this species'
+ #          SendMail.send_email(user.name, user.email, 'AEOL: New species ready for translation', message)
+        end 
+      end
+    end
+    
+    if !user.nil? && @taxon_concept.get_responsible_id(phase.id) != user.id 
+      #assign and send message to user
+      TaxonConceptAssignLog.create(taxon_concept_id: @taxon_concept.id, 
+        user_id: user.id, phase_id: phase.id, assign_date: Time.now, by_user_id: session[:user_id])
+      if user.active == 1 && user.email != ''
+        #        $message = 'Hi '.$user[0]->name.',<br><br>New species ready for translation ('.$taxon_concept->scientificName.')<br><br>'.
+        #        '<a target="_blank" href="'.$AEOL_url.'/eol_translation/applications/translation/details/species.php?tid='.$id.'&trstatus=2&process=2">Click here</a> to translate this species';
+        #        SendMail.send_email(user.email, 'AEOL: New species has been assigned', message)
+      end
+    end
+  end
 end

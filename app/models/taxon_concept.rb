@@ -258,9 +258,9 @@ class TaxonConcept < ActiveRecord::Base
   end
  
   def self.get_finished_distribution(keyword, current_page)
-    query_string = "select taxon_concepts.*, status.label as taxon_status, priorities.label as priority
+    query_string = "select taxon_concepts.*, statuses.label as taxon_status, priorities.label as priority
       from taxon_concepts
-      inner join status on status.id=taxon_concepts.taxon_status_id
+      inner join statuses on statuses.id=taxon_concepts.taxon_status_id
       inner join selection_batches on selection_batches.id=selection_id
       inner join priorities on priorities.id=priority_id
       where taxon_status_id>=2 "
@@ -271,9 +271,9 @@ class TaxonConcept < ActiveRecord::Base
     TaxonConcept.find_by_sql(query_string).paginate(:page => current_page, :per_page => ITEMS_PER_PAGE)
   end
   def self.get_updated_taxons(current_page, sort_by)
-    query_string = "SELECT taxon_concepts.*, status.label AS taxon_status, priorities.label AS priority
+    query_string = "SELECT taxon_concepts.*, statuses.label AS taxon_status, priorities.label AS priority
     FROM taxon_concepts
-    INNER JOIN status ON status.id=taxon_concepts.taxon_status_id
+    INNER JOIN statuses ON statuses.id=taxon_concepts.taxon_status_id
     INNER JOIN selection_batches ON selection_batches.id=selection_id
     INNER JOIN priorities ON priorities.id=priority_id
     WHERE taxon_update=1 "
@@ -292,8 +292,8 @@ class TaxonConcept < ActiveRecord::Base
   end
  
   def self.taxon_search(keyword, current_page)
-    TaxonConcept.find_by_sql("select taxon_concepts.*, status.label as taxon_status from taxon_concepts
-    left outer join status on status.id=taxon_status_id
+    TaxonConcept.find_by_sql("select taxon_concepts.*, statuses.label as taxon_status from taxon_concepts
+    left outer join statuses on statuses.id=taxon_status_id
     where scientificName like '#{keyword}';").paginate(:page => current_page, :per_page => ITEMS_PER_PAGE)
   end
  

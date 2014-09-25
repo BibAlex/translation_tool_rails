@@ -219,7 +219,7 @@ en:
   alert_error_failed_to_create_user: "User creation failed"
   alert_notice_user_successfuly_updated: "User was successfuly updated"
   alert_error_failed_to_update_user: "User update failed"
-  alert_missing_scientific_reviewer: 'Missing scientific reviewer'
+  alert_missing: 'Missing'
   alert_missing_linguistc_reviewer: 'Missing linguistc reviewer'
   alert_select_at_least_one_species: "You must select at least one species"
   alert_please_select_hierarchy_entry: "Please select a hierarchy entry"

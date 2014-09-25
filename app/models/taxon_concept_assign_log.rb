@@ -5,4 +5,13 @@ class TaxonConceptAssignLog < ActiveRecord::Base
                               phase_id: phase_id, by_user_id: by_user_id)
   end
   
+  def self.get_responsible_for_specified_phase(taxon_concept_id, phase_id)
+    resp = TaxonConceptAssignLog.find_by_taxon_concept_id_and_phase_id(taxon_concept_id, phase_id)
+    if resp
+      return resp.user_id
+    else
+      return 0
+    end
+  end
+  
 end
