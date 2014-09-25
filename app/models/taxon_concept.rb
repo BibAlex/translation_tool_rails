@@ -192,14 +192,18 @@ class TaxonConcept < ActiveRecord::Base
     end
   end
 
-  def self.select_taxon_concepts_pending_for_translation_by_user(user_id)
-    TaxonConcept.find_by_sql("SELECT taxon_concepts.*, priorities.label as priority FROM taxon_concepts
-      inner join selection_batches on selection_batches.id=selection_id
-      inner join priorities on priorities.id=priority_id
-      WHERE
-      taxon_status_id=2
-      AND translator_id=#{user_id}
-      Order by sort_order, scientificName")
+  def self.select_taxon_concepts_pending_for_phase_by_user(user_id, phase_id)
+    TaxonConcept.find_by_sql("SELECT taxon_concepts.*, priorities.label as priority
+                              FROM taxon_concepts
+                              inner join selection_batches on selection_batches.id=selection_id
+                              inner join priorities on priorities.id=priority_id
+                              inner join taxon_concept_assign_logs on taxon_concept_assign_logs.taxon_concept_id=taxon_concepts.id
+                              WHERE
+                              taxon_status_id<=#{phase_id}
+                              AND taxon_concept_assign_logs.user_id=#{user_id}
+                              AND taxon_concept_assign_logs.phase_id=#{phase_id}
+                              Order by sort_order, scientificName")
+
   end
   
   def self.select_taxon_concepts_pending_for_ling_review_by_user(user_id)

@@ -1,4 +1,6 @@
 class Status < ActiveRecord::Base
+  # attr_accessible :title, :body
+  has_many :users
   
   def self.select_status_by_id(status_id)
     'Distribution' if(status_id == 0)

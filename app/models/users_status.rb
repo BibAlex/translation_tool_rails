@@ -1,6 +1,7 @@
 class UsersStatus < ActiveRecord::Base
-  has_many :user
-  has_many :status
+  belongs_to :status
+  belongs_to :user
+  attr_accessible :status_id, :user_id
   
   def self.get_users_of_specified_phase(phase_id)
     UsersStatus.find_by_sql("SELECT users.id as id, users.name as name, users.email as email
@@ -10,3 +11,4 @@ class UsersStatus < ActiveRecord::Base
       status_id = #{phase_id}")
   end
 end
+

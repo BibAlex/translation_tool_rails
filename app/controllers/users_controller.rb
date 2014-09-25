@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     @countries = Country.load_all
     @action = "create"
     @method = "post"
+    @statuses = Status.all
   end
   
   def create
@@ -20,13 +21,24 @@ class UsersController < ApplicationController
     params.delete :controller
     params.delete :action
     params.delete :password_confirmation
+    user_roles = params.select { |key, value| key.to_s.match(/status/) }
+    params.delete_if { |key, value| key.to_s.match(/status/) }
     @user = User.new(params)
     if @user.save
+      
+      # add roles
+      user_roles.each do |key, value|
+        if value.to_i == 1
+          status = Status.find_by_label(key[key.index("_") + 1, key.length])
+          UsersStatus.create(user_id: @user.id, status_id: status.id) if status
+        end
+      end
       flash.now[:notice] = I18n.t(:alert_notice_user_successfuly_created)
       flash.keep
       redirect_to :controller => :users, :action => :index
     else
       flash.now[:error] = I18n.t(:alert_error_failed_to_create_user)
+      @statuses = Status.all
       render :new
     end
   end
@@ -34,6 +46,7 @@ class UsersController < ApplicationController
   def index
    @page_title = I18n.t(:page_title_users)
    @users = User.paginate(:page => params[:page], :per_page => ITEMS_PER_PAGE).order('name ASC')
+   @statuses = Status.all
  end
   
   def change_password_attempt
@@ -60,33 +73,46 @@ class UsersController < ApplicationController
     @countries = Country.load_all
     @action = "update"
     @method = "put"
-    @pending_translations = []
-    @pending_ling_reviews = []
-    @pending_scientific_reviews =[] 
+    @pending_taxons = []
+    @statuses = Status.all
   end
   
   def update
     @countries = Country.load_all
     @user = User.find(params[:id])
     @message = ""
+    @statuses = Status.all
     update = true 
-    @pending_translations = []
-    @pending_ling_reviews = []
-    @pending_scientific_reviews =[] 
-    if (@user.translator == 1 && params[:translator].to_i == 0)
-      @pending_translations = TaxonConcept.select_taxon_concepts_pending_for_translation_by_user(@user.id);
+    user_roles = params.select { |key, value| key.to_s.match(/status/) }
+    @pending_taxons = []
+    
+    user_roles.each do |key, value|
+      key = key[key.index("_") + 1, key.length]
+      status = Status.find_by_label(key)
+      if status && status.id > 1  && @user.has_privilige?(status.id) && value.to_i == 0
+        pending_taxons_phase = TaxonConcept.select_taxon_concepts_pending_for_phase_by_user(@user.id, status.id)
+         if pending_taxons_phase.count > 0
+           @pending_taxons << pending_taxons_phase
+           update = false
+         end
+      end
     end
-    if (@user.linguistic_reviewer == 1 && params[:linguistic_reviewer].to_i == 0)
-      @pending_ling_reviews = TaxonConcept.select_taxon_concepts_pending_for_ling_review_by_user(@user.id);
-    end
-    if (@user.scientific_reviewer == 1 && params[:scientific_reviewer].to_i == 0)
-      @pending_scientific_reviews = TaxonConcept.select_taxon_concepts_pending_for_scien_review_by_user(@user.id);
-    end
-    update = false if @pending_translations.count > 0 || @pending_ling_reviews.count > 0 || @pending_scientific_reviews.count > 0
+        
     params.delete :controller
     params.delete :action
     params.delete :id
+    params.delete_if { |key, value| key.to_s.match(/status/) }
+    
     if @user.update_attributes(params) && update
+      # add roles
+      @user.delete_all_roles
+      user_roles.each do |key, value|
+        if value.to_i == 1
+          status = Status.find_by_label(key[key.index("_") + 1, key.length])
+          UsersStatus.create(user_id: @user.id, status_id: status.id) if status
+        end
+      end
+      
       flash.now[:notice] = I18n.t(:alert_notice_user_successfuly_updated)
       flash.keep
       redirect_to :controller => :users, :action => :index
