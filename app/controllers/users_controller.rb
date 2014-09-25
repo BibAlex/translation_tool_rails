@@ -73,8 +73,8 @@ class UsersController < ApplicationController
     @countries = Country.load_all
     @action = "update"
     @method = "put"
-    @pending_taxons = []
     @statuses = Status.all
+    @pending_taxons = [] if params[:pending].nil? || params[:pending]
   end
   
   def update
@@ -89,10 +89,12 @@ class UsersController < ApplicationController
     user_roles.each do |key, value|
       key = key[key.index("_") + 1, key.length]
       status = Status.find_by_label(key)
-      if status && status.id > 1  && @user.has_privilige?(status.id) && value.to_i == 0
+      if status &&  @user.has_privilige?(status.id) && value.to_i == 0
         pending_taxons_phase = TaxonConcept.select_taxon_concepts_pending_for_phase_by_user(@user.id, status.id)
          if pending_taxons_phase.count > 0
-           @pending_taxons << pending_taxons_phase
+           pending_taxons_phase.each do |item|
+             @pending_taxons << item
+           end
            update = false
          end
       end
@@ -118,7 +120,7 @@ class UsersController < ApplicationController
       redirect_to :controller => :users, :action => :index
     else
       flash.now[:error] = I18n.t(:alert_error_failed_to_update_user)
-      render :edit
+      render :edit, { pending: update }
     end
 #    ?>
 #    <script>
@@ -175,7 +177,7 @@ class UsersController < ApplicationController
     user_status_list = UsersStatus.where(user_id: user.id)
     roles = ""
     user_status_list.each do |user_status|
-      roles += Status.find(user_status.status_id).label + "," 
+      roles += Status.find(user_status.status_id) + "," 
     end
     session[:roles] = roles
   end

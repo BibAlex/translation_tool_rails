@@ -16,16 +16,15 @@
             %ul
               %li.toc
                 - pending_tab_style = params[:action] == 'pending_species' ? I18n.t(:active_table_of_content_style) : ""
-                %a{:href => "/translations/pending_species", :style => pending_tab_style}
+                %a{:href => "/phases/pending_species", :style => pending_tab_style}
                   = I18n.t(:translation_tab_pending_species)
               %li.toc
                 - completed_tab_style = params[:action] == 'completed_species' ? I18n.t(:active_table_of_content_style) : ""
-                %a{:href => "/translations/completed_species", :style => completed_tab_style}
+                %a{:href => "/phases/completed_species", :style => completed_tab_style}
                   = I18n.t(:translation_tab_completed_species)
-              - if params[:controller] == "translations"
-                %li.toc
-                  - search_tab_style = params[:action] == 'search' ? I18n.t(:active_table_of_content_style) : ""
-                  %a{:href => "/translations/search", :style => search_tab_style}
-                    = I18n.t(:translation_tab_search)
+              %li.toc
+                - search_tab_style = params[:action] == 'search' ? I18n.t(:active_table_of_content_style) : ""
+                %a{:href => "/phases/search", :style => search_tab_style}
+                  = I18n.t(:translation_tab_search)
           = yield
       = render :partial => "layouts/footer"

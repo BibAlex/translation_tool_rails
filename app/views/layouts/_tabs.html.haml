@@ -19,7 +19,7 @@
         %li
           #trans_l.left_side
           #trans_m.link_middle
-            %a{:href => "../list/mylist.php?process=2"} #{role}
+            = link_to "#{role}",{:controller => :phases, :action => :pending_species, :phase => role} 
           #trans_r.right_side
           
       - if get_roles_array(session[:roles]).include? 'task_distribution'

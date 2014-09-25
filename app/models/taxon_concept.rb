@@ -193,38 +193,18 @@ class TaxonConcept < ActiveRecord::Base
   end
 
   def self.select_taxon_concepts_pending_for_phase_by_user(user_id, phase_id)
-    TaxonConcept.find_by_sql("SELECT taxon_concepts.*, priorities.label as priority
-                              FROM taxon_concepts
-                              inner join selection_batches on selection_batches.id=selection_id
-                              inner join priorities on priorities.id=priority_id
-                              inner join taxon_concept_assign_logs on taxon_concept_assign_logs.taxon_concept_id=taxon_concepts.id
-                              WHERE
-                              taxon_status_id<=#{phase_id}
-                              AND taxon_concept_assign_logs.user_id=#{user_id}
-                              AND taxon_concept_assign_logs.phase_id=#{phase_id}
-                              Order by sort_order, scientificName")
+    query_str = "SELECT taxon_concepts.*, priorities.label as priority
+                 FROM taxon_concepts
+                 inner join selection_batches on selection_batches.id=selection_id
+                 inner join priorities on priorities.id=priority_id
+                 inner join taxon_concept_assign_logs on taxon_concept_assign_logs.taxon_concept_id=taxon_concepts.id
+                 WHERE
+                 taxon_status_id<=#{phase_id}
+                 AND taxon_concept_assign_logs.user_id=#{user_id}
+                 AND taxon_concept_assign_logs.phase_id=#{phase_id}
+                 Order by sort_order, scientificName"
+    TaxonConcept.find_by_sql(query_str)
 
-  end
-  
-  def self.select_taxon_concepts_pending_for_ling_review_by_user(user_id)
-    TaxonConcept.find_by_sql("SELECT taxon_concepts.*, priorities.label as priority FROM taxon_concepts
-      inner join selection_batches on selection_batches.id=selection_id
-      inner join priorities on priorities.id=priority_id
-      WHERE
-      (taxon_status_id>=2 and taxon_status_id <5)
-      AND linguistic_reviewer_id=#{user_id}
-      order by sort_order, scientificName")
-  end
-    
-  def self.select_taxon_concepts_pending_for_scien_review_by_user(user_id)
-    TaxonConcept.find_by_sql("SELECT taxon_concepts.*, priorities.label as priority
-      FROM taxon_concepts
-      inner join selection_batches on selection_batches.id=selection_id
-      inner join priorities on priorities.id=priority_id
-      WHERE
-      (taxon_status_id>=2 and taxon_status_id <4)
-      AND scientific_reviewer_id=#{user_id}
-      ")
   end
   
   def self.get_pending_distribution_count

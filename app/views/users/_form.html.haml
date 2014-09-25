@@ -6,8 +6,7 @@
       - else
         = I18n.t(:users_tab_legend_edit_user)
     = validation_errors_for(@user)
-    
-    - if params[:action] == "edit" && @pending_taxons.count > 0
+    - if !(@user.nil?) && @pending_taxons.count > 0
       = #{I18n.t(:users_tab_message_translation_tasks)}
       - @pending_taxons.each do |taxon_concept|
         %li
