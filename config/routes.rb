@@ -40,8 +40,7 @@ EolTranslationToolRails::Application.routes.draw do
   
   #translations
   match "phases/search" => "phases#search"
-  match "phases/pending_species" => "phases#pending_species"
-  match "phases/completed_species" => "phases#completed_species"
+  match "phases/species" => "phases#species"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

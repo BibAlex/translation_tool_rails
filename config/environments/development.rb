@@ -49,4 +49,6 @@ EolTranslationToolRails::Application.configure do
   DATA_TYPES_MEDIA = '2, 4, 7, 8'
   MASTER = 'eol_data'
   SLAVE = 'aeol'
+  PENDING = "2"
+  COMPLETED = "1"
 end

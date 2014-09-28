@@ -8,7 +8,7 @@
             = link_to "#{I18n.t(:tab_title_selection)}",{:controller => :selections, :action => :new}
           #select_r.right_side
           
-      - if get_roles_array(session[:roles]).include? 'Distribution'
+      - if get_roles_array(session[:roles]).include? "#{I18n.t(:phase_distribution)}"
         %li
           #task_l.left_side
           #task_m.link_middle
@@ -16,15 +16,15 @@
           #task_r.right_side
       - # PHASES
       - phases_arr = session[:roles]
-      - phases_arr.delete("Distribution") if phases_arr.include? "Distribution" 
       - phases_arr.each do |phase|
-        %li
-          #trans_l.left_side
-          #trans_m.link_middle
-            = link_to "#{phase.label}",{:controller => :phases, :action => :pending_species, :phase => phase.id}
-          #trans_r.right_side
+        - if phase.label != "#{I18n.t(:phase_distribution)}"
+          %li
+            #trans_l.left_side
+            #trans_m.link_middle
+              = link_to "#{phase.label}",{:controller => :phases, :action => :species, :phase => phase.id, :trstatus => PENDING}
+            #trans_r.right_side
           
-      - if get_roles_array(session[:roles]).include? 'Distribution'
+      - if get_roles_array(session[:roles]).include? "#{I18n.t(:phase_distribution)}"
         %li
           #report_l.left_side
           #report_m.link_middle

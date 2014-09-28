@@ -105,6 +105,8 @@ en:
   date: "Date"
   taxon: "taxon"
   images_vedio: "Images/Videos"
+  action: "Action"
+  assigned: "Assigned"
   
   #styles
   active_table_of_content_style: "background: url(/images/toc_hover.gif) scroll transparent no-repeat 25px 3px;background-color:#E8E8E8;"
@@ -118,10 +120,12 @@ en:
   button_submit: Submit
   save_and_submit_to_task_distributor: "Save and submit to Task Distributor"
   button_login: Login
+  button_filter: "Filter"
   #links
   delete: "Delete"
   edit: "Edit"
   show_taxons: "Show Taxons"
+  clear: "Clear"
   
   #users tab
   users_tab_legend_add_user: "Users - Add User"
@@ -245,4 +249,12 @@ en:
   translation_tab_completed_species: "Completed Species"
   translation_tab_search: "Pick new Species"
   select_species_from_list: "Select species you need to work on from the list"
+  
+  #phases
+  phase_distribution: "Distribution"
+  phase_pending_species: "Pending Specie(s)"
+  phase_translate: "Translate"
+  phase_review: "Review"
+  phase_view: "View"
+  phase_picked: "Picked"
 

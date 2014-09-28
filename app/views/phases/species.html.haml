@@ -1,0 +1,87 @@
+:javascript
+  function clear() {
+    $('#spid').val('');
+    $('#spname').val('');
+  }
+
+
+%form#frm{:action => "species", :name => "frm",
+          :id => "frm"}
+  .form
+    %h2
+      = "#{@total_items} #{I18n.t(:phase_pending_species)}"
+    %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+      %input{:name => "phase", :type => "hidden", :value => "#{params[:phase]}"}
+      %input{:name => "trstatus", :type => "hidden", :value => "#{params[:trstatus]}"}
+      %table{:border => "0", :cellpadding => "10", :cellspacing => "0", :width => "100%"}
+        %tr
+          %td.oddc{:style => "width:74px;padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:id)
+          %td.odd{:style => "padding:3px; border-top:1px solid gray; text-align:center;"}
+            = I18n.t(:species_name)
+          %td.odd{:style => "padding:3px; border-top:1px solid gray; text-align:center;"}
+            = I18n.t(:priority)
+          %td.oddc{:style => "padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:task_distribution_tab_table_head_text)
+          %td.oddc{:style => "padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:images_vedio)
+          %td.oddc{:style => "width:90px;padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:action)
+          - if is_translate?(params[:phase])
+            %td.oddc{:style => "padding:3px; border-top:1px solid gray;"}
+              = "&nbsp".html_safe
+        %tr
+          %td.oddc{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %input{:name => "spid", :onkeypress => "if(event.keyCode==13){document.frm.submit();}",
+                   :style => "width:70px", :type => "text", :value => "#{params[:spid]}",
+                   :id => "spid"}
+          %td.oddc{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %input{:name => "spname", :onkeypress => "if(event.keyCode==13){document.frm.submit();}",
+                   :style => "width:260px", :type => "text", :value => "#{params[:spname]}",
+                   :id => "spname"}
+          %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+          %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+          %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+          %td.oddc{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+              %input{:name => "submitBut", :type => "submit", :value => "#{I18n.t(:button_filter)}"}
+              %a{:href => "", :onclick => "clear();"}
+                = I18n.t(:clear)
+          - if is_translate?(params[:phase])
+            %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+              = "&nbsp;".html_safe
+        - @taxons_concepts.each do |taxon|
+          - ctext = TaxonConcept.Count_DataObjects_ByTaxonID_ByType(taxon.id,'text')
+          - cmedia = TaxonConcept.Count_DataObjects_ByTaxonID_ByType(taxon.id,'media')
+          - update = "%img{:src => '/images/update.png', :title => 'updated species'}".html_safe
+          - arr = get_specises_status_and_action(taxon, params[:phase])
+          - status = arr[0]
+          - action = arr[1]
+          %tr
+            %td.evenc
+              = taxon.id
+            %td.even
+              - if taxon.taxon_update == 2
+                = update
+              - else
+                = status.html_safe
+              %a{:href => "#{EOL_SITE_URL}/pages/#{taxon.id}", :target => "_blank"}
+                = taxon.scientificName
+            %td.evenc 
+              = taxon.priority
+            %td.evenc 
+              = ctext
+            %td.evenc 
+              = cmedia
+            %td.evenc
+              %a{:href => "../details/species.php?tid=<?=$taxon->id?><?=$potherparam?>"} 
+                = action
+            - if is_translate?(params[:phase])
+              %td.evenc 
+                = I18n.t(:assigned)
+    %br
+      %center
+        = will_paginate @taxons_concepts

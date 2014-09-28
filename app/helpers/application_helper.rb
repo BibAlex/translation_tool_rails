@@ -5,7 +5,11 @@ module ApplicationHelper
   end
  
   def get_roles_array(roles)
-    roles.split(',')
+    roles_labels = []
+    roles.each do |role|
+      roles_labels << role.label
+    end
+    roles_labels
   end
   
 end

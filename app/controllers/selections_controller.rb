@@ -93,7 +93,7 @@ class SelectionsController < ApplicationController
   
   def show_taxons
     @selection = SelectionBatche.find(params[:id])
-    @taxon_concepts = SelectionBatche.get_selected_taxons(@selection.id)
+    @taxon_concepts = SelectionBatche.get_selected_taxons(@selection.id).paginate(:page => params[:page], :per_page => ITEMS_PER_PAGE)
     @taxon_ids = ''
     @taxon_concepts.each do |taxon_concept|
       @taxon_ids += ',' if @taxon_ids != ''

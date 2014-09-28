@@ -132,7 +132,7 @@ class TaxonConcept < ActiveRecord::Base
   
   def can_delete?(master_taxon_concept)
     if (self.taxon_status_id < 2 || (self.taxon_status_id == 2 &&
-                                     ADataObject.Count_a_dataObjects_ByTaxonConceptID(master_taxon_concept.id,0) == 0 ))
+                                     ADataObject.Count_a_dataObjects_ByTaxonConceptID(master_taxon_concept.taxon_concept_id,0) == 0 ))
       true
     else
       false
@@ -156,7 +156,7 @@ class TaxonConcept < ActiveRecord::Base
                                       :database => "#{SLAVE}_#{Rails.env}")
     taxon_concept = TaxonConcept.get_by_id(id)
     if taxon_concept
-      taxon_concept.destroy
+      
       connection = TaxonConcept.connection
       
       connection.execute("delete from data_objects_taxon_concepts where taxon_concept_id=#{id};")
@@ -166,29 +166,29 @@ class TaxonConcept < ActiveRecord::Base
       connection.execute("delete from data_objects where not exists (select * from data_objects_taxon_concepts where data_object_id=data_objects.id);")
       connection.execute("delete from a_data_objects where not exists (select * from data_objects where data_objects.id=a_data_objects.id);")
       
-      user_id = taxon_concept.translator_id
-      if (taxon_concept.taxon_status_id == 3)
-        user_id = taxon_concept.linguistic_reviewer_id
-      end
-      if (taxon_concept.taxon_status_id == 4)
-        user_id = taxon_concept.scientific_reviewer_id
-      end
-        
+      result = TaxonConcept.find_by_sql("select user_id
+                                        from taxon_concept_assign_logs
+                                        where taxon_concept_id= #{taxon_concept.id}
+                                        AND phase_id=#{taxon_concept.taxon_status_id}")
+      
+      user_id = result.first.user_id
+      
         # unlock data objects
         query_str = "update a_data_objects 
                      set locked=0,
                      taxon_concept_id=0
                      where
                      process_id= #{taxon_concept.taxon_status_id}
-                     and
-                     user_id=#{user_id}
-                    and locked=1
-                    and taxon_concept_id=#{taxon_concept.id};"
+                     and user_id=#{user_id}
+                     and locked=1
+                     and taxon_concept_id=#{taxon_concept.id};"
       connection.execute(query_str)      
       
       # delete unused names
       connection.execute("delete from names where not exists (select * from taxon_concept_names where name_id=names.id);")
       connection.execute("delete from a_names where taxon_id=#{id};")
+      
+      taxon_concept.destroy
     end
   end
 
@@ -283,7 +283,6 @@ class TaxonConcept < ActiveRecord::Base
  
  
   def self.assign_taxon(id, translator_id, linguistic_reviewer_id, scientific_reviewer_id)
-    debugger
     taxon_concept = TaxonConcept.find(id)
     taxon_concept.update_attributes(taxon_status_id: 2, translator_id: translator_id,
     linguistic_reviewer_id: linguistic_reviewer_id, scientific_reviewer_id: scientific_reviewer_id)
@@ -332,6 +331,72 @@ class TaxonConcept < ActiveRecord::Base
 #    BLL_taxon_concepts::SendMailNotification($id,$minProcess,$_SESSION['user_id']); 
 #    }
   end
+  
+  # translationStatus (pending or completed)
+  def self.count_taxon_concepts_for_phase(db, user_id, speciesID, speciesName, translationStatus, phase_id)
+    species_id = speciesID.nil? || speciesID == "" ?  'NULL' : speciesID
+    species_name = speciesName.nil? || speciesName == "" ?  'NULL' : speciesName
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{db}_#{Rails.env}")
+    
+    query_str = "SELECT COUNT(taxon_concepts.id) as count FROM taxon_concepts
+                 inner join taxon_concept_assign_logs on taxon_concept_assign_logs.taxon_concept_id=taxon_concepts.id
+                 WHERE
+                 taxon_concept_assign_logs.user_id=#{user_id}
+                 AND (#{species_id} IS NULL OR taxon_concepts.id=#{species_id})
+                 AND (#{species_name} IS NULL OR scientificName like #{species_name})
+                 AND ( (#{translationStatus}=#{PENDING} AND taxon_status_id=#{phase_id}) OR (#{translationStatus}=#{COMPLETED} AND taxon_status_id>phase_id));"
+    
+    connection.execute(query_str).count
+  end
+  
+  def self.taxon_concepts_for_phase(db, user_id, speciesID, speciesName, translationStatus, phase_id,
+                                    page)
+    species_id = speciesID.nil? || speciesID == "" ?  'NULL' : speciesID
+    species_name = speciesName.nil? || speciesName == "" ?  'NULL' : speciesName
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{db}_#{Rails.env}")
+    #connection = TaxonConcept.connection
+    query_str = "SELECT priorities.label as priority, taxon_concepts.* FROM taxon_concepts
+                 inner join taxon_concept_assign_logs on taxon_concept_assign_logs.taxon_concept_id=taxon_concepts.id
+                 inner join selection_batches on selection_batches.id=selection_id
+                 inner join priorities on priorities.id=priority_id
+                 WHERE
+                 taxon_concept_assign_logs.user_id=#{user_id}
+                 AND (#{species_id} IS NULL OR taxon_concepts.id=#{species_id})
+                 AND (#{species_name} IS NULL OR scientificName like #{species_name})
+                 AND ( (#{translationStatus}=#{PENDING} AND taxon_status_id=#{phase_id}) OR (#{translationStatus}=#{COMPLETED} AND taxon_status_id>phase_id))
+                 ORDER BY sort_order, scientificName;"
+    
+    find_by_sql(query_str).paginate(:page => page, :per_page => ITEMS_PER_PAGE)
+  end
+  
+  def self.Count_DataObjects_ByTaxonID_ByType(tid,type)
+    if type == "text"
+      type = "=3"
+    else
+      type = "<>3"
+    end
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{SLAVE}_#{Rails.env}")
+    query_str = "SELECT COUNT(*) as count FROM data_objects_taxon_concepts
+                 INNER JOIN data_objects ON (data_objects.id=data_objects_taxon_concepts.data_object_id)
+                 WHERE data_objects.data_type_id#{type}
+                 AND data_objects_taxon_concepts.taxon_concept_id=#{tid};"
+  
+    connection = TaxonConcept.connection
+    connection.execute(query_str).count
+  end
+  
   
 private
   def self.get_order_by_string(sort_by)

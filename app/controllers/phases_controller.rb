@@ -8,12 +8,16 @@ class PhasesController < ApplicationController
     
   end
   
-  def pending_species
+  def species
+    @total_items = TaxonConcept.count_taxon_concepts_for_phase(SLAVE,session[:user_id],params[:spid],
+                                                               params[:spname],params[:trstatus],
+                                                               params[:phase])
     
+    
+    @taxons_concepts = TaxonConcept.taxon_concepts_for_phase(SLAVE,session[:user_id],params[:spid],
+                                                    params[:spname],params[:trstatus],
+                                                    params[:phase], params[:page])
   end
   
-  def completed_species
-    
-  end
 end
   
