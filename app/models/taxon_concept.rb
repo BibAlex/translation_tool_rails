@@ -433,6 +433,30 @@ class TaxonConcept < ActiveRecord::Base
     find_by_sql(query_str).paginate(:page => page, :per_page => ITEMS_PER_PAGE)
   end
   
+  def self.taxon_concept_assign_log(taxon_concept_id, user_id, phase_id, by_user_id)
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{SLAVE}_#{Rails.env}")
+    query_str = "insert into taxon_concept_assign_logs (taxon_concept_id, user_id,
+                                                        phase_id, by_user_id)
+                              values (#{taxon_concept_id}, #{user_id}, #{phase_id}, #{by_user_id});"
+    connection = TaxonConcept.connection
+    connection.insert(query_str)
+  end
+  
+  def self.Update_taxon_concepts_TranslationStatus(taxon_concept_id)
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{SLAVE}_#{Rails.env}")
+    query_str = "UPDATE taxon_concepts SET state_id=1 WHERE id=#{taxon_concept_id};"
+    connection = TaxonConcept.connection
+    connection.execute(query_str)
+  end
+  
   
 private
   def self.get_order_by_string(sort_by)
