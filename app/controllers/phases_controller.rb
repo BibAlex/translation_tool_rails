@@ -5,7 +5,12 @@ class PhasesController < ApplicationController
   before_filter :restrict_login
   
   def search
-    
+    @total_items = TaxonConcept.Count_taxon_concepts_ForTranslation_FromPool(SLAVE,session[:user_id],params[:spid],
+                                                                params[:spname],params[:trstatus],
+                                                                params[:phase])
+    @taxons_concepts = TaxonConcept.Select_taxon_concepts_ForTranslation_FromPool(SLAVE,session[:user_id],params[:spid],
+                                                             params[:spname],params[:trstatus],
+                                                             params[:phase], params[:page])
   end
   
   def species
@@ -13,10 +18,9 @@ class PhasesController < ApplicationController
                                                                params[:spname],params[:trstatus],
                                                                params[:phase])
     
-    
     @taxons_concepts = TaxonConcept.taxon_concepts_for_phase(SLAVE,session[:user_id],params[:spid],
-                                                    params[:spname],params[:trstatus],
-                                                    params[:phase], params[:page])
+                                                                                  params[:spname],params[:trstatus],
+                                                                                  params[:phase], params[:page])
   end
   
 end

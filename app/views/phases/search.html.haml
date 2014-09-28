@@ -1,0 +1,70 @@
+:javascript
+  function clear() {
+    $('#spid').val('');
+    $('#spname').val('');
+  }
+
+
+%form#frm{:action => "search", :name => "frm", :id => "frm"}
+  .form
+    %h2
+      - title = get_phase_title(params[:trstatus])
+      = "#{@total_items} #{title}"
+    %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
+      %input{:name => "phase", :type => "hidden", :value => "#{params[:phase]}"}
+      %input{:name => "pickedID", :id => "pickedID", :type => "hidden", :value => "#{params[:pickedID]}"}
+      %table{:border => "0", :cellpadding => "10", :cellspacing => "0", :width => "100%"}
+        %tr
+          %td.oddc{:style => "width:74px;padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:id)
+          %td.odd{:style => "padding:3px; border-top:1px solid gray; text-align:center;"}
+            = I18n.t(:species_name)
+          %td.odd{:style => "padding:3px; border-top:1px solid gray; text-align:center;"}
+            = I18n.t(:priority)
+          %td.oddc{:style => "padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:task_distribution_tab_table_head_text)
+          %td.oddc{:style => "padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:images_vedio)
+          %td.oddc{:style => "width:90px;padding:3px; border-top:1px solid gray;"}
+            = I18n.t(:action)
+        %tr
+          %td.oddc{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %input{:name => "spid", :onkeypress => "if(event.keyCode==13){document.frm.submit();}",
+                   :style => "width:70px", :type => "text", :value => "#{params[:spid]}",
+                   :id => "spid"}
+          %td.oddc{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %input{:name => "spname", :onkeypress => "if(event.keyCode==13){document.frm.submit();}",
+                   :style => "width:260px", :type => "text", :value => "#{params[:spname]}",
+                   :id => "spname"}
+          %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+          %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+          %td.odd{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+          %td.oddc{:style => "padding:3px; border-bottom:1px solid gray;"}
+            %center
+              %input{:name => "submitBut", :type => "submit", :value => "#{I18n.t(:button_filter)}"}
+              %a{:href => "", :onclick => "clear();"}
+                = I18n.t(:clear)
+        - @taxons_concepts.each do |taxon|
+          - ctext = TaxonConcept.Count_DataObjects_ByTaxonID_ByType(taxon.id,'text')
+          - cmedia = TaxonConcept.Count_DataObjects_ByTaxonID_ByType(taxon.id,'media')
+          %tr
+            %td.evenc
+              = taxon.id
+            %td.even
+              %a{:href => "#{EOL_SITE_URL}/pages/#{taxon.id}", :target => "_blank"}
+                = taxon.scientificName
+            %td.evenc 
+              = taxon.priority
+            %td.evenc 
+              = ctext
+            %td.evenc 
+              = cmedia
+            %td.oddc
+              %a{:href => "javascript:void(0);", :onclick => "document.getElementById('pickedID').value=#{taxon.id};document.frm.submit();"} 
+                = I18n.t(:phase_pick)
+    %br
+      %center
+        = will_paginate @taxons_concepts

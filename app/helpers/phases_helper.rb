@@ -32,5 +32,15 @@ module PhasesHelper
     [status, action]
   end
   
+  def get_phase_title(trstatus)
+    if trstatus == COMPLETED
+      I18n.t(:phase_completed_species)
+    elsif trstatus == PENDING
+      I18n.t(:phase_pending_species)
+    else
+      I18n.t(:phase_unassigned_species)
+    end
+  end
+  
 end
 

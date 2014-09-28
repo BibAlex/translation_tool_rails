@@ -253,8 +253,11 @@ en:
   #phases
   phase_distribution: "Distribution"
   phase_pending_species: "Pending Specie(s)"
+  phase_completed_species: "Completed Specie(s)"
+  phase_unassigned_species: "Unassigned Specie(s)"
   phase_translate: "Translate"
   phase_review: "Review"
   phase_view: "View"
   phase_picked: "Picked"
+  phase_pick: "Pick"
 

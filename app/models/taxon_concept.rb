@@ -348,9 +348,9 @@ class TaxonConcept < ActiveRecord::Base
                  taxon_concept_assign_logs.user_id=#{user_id}
                  AND (#{species_id} IS NULL OR taxon_concepts.id=#{species_id})
                  AND (#{species_name} IS NULL OR scientificName like #{species_name})
-                 AND ( (#{translationStatus}=#{PENDING} AND taxon_status_id=#{phase_id}) OR (#{translationStatus}=#{COMPLETED} AND taxon_status_id>phase_id));"
+                 AND ( (#{translationStatus}=#{PENDING} AND taxon_status_id=#{phase_id} and state_id=1) OR (#{translationStatus}=#{COMPLETED} AND taxon_status_id>phase_id));"
     
-    connection.execute(query_str).count
+    connection.execute(query_str).first[0]
   end
   
   def self.taxon_concepts_for_phase(db, user_id, speciesID, speciesName, translationStatus, phase_id,
@@ -362,7 +362,6 @@ class TaxonConcept < ActiveRecord::Base
                                       :username => "root",
                                       :password => "root",
                                       :database => "#{db}_#{Rails.env}")
-    #connection = TaxonConcept.connection
     query_str = "SELECT priorities.label as priority, taxon_concepts.* FROM taxon_concepts
                  inner join taxon_concept_assign_logs on taxon_concept_assign_logs.taxon_concept_id=taxon_concepts.id
                  inner join selection_batches on selection_batches.id=selection_id
@@ -371,7 +370,7 @@ class TaxonConcept < ActiveRecord::Base
                  taxon_concept_assign_logs.user_id=#{user_id}
                  AND (#{species_id} IS NULL OR taxon_concepts.id=#{species_id})
                  AND (#{species_name} IS NULL OR scientificName like #{species_name})
-                 AND ( (#{translationStatus}=#{PENDING} AND taxon_status_id=#{phase_id}) OR (#{translationStatus}=#{COMPLETED} AND taxon_status_id>phase_id))
+                 AND ( (#{translationStatus}=#{PENDING} AND taxon_status_id=#{phase_id} and state_id=1) OR (#{translationStatus}=#{COMPLETED} AND taxon_status_id>phase_id))
                  ORDER BY sort_order, scientificName;"
     
     find_by_sql(query_str).paginate(:page => page, :per_page => ITEMS_PER_PAGE)
@@ -395,6 +394,43 @@ class TaxonConcept < ActiveRecord::Base
   
     connection = TaxonConcept.connection
     connection.execute(query_str).count
+  end
+  
+  def self.Count_taxon_concepts_ForTranslation_FromPool(db, user_id, speciesID, speciesName, translationStatus, phase_id)
+    species_id = speciesID.nil? || speciesID == "" ?  'NULL' : speciesID
+    species_name = speciesName.nil? || speciesName == "" ?  'NULL' : speciesName
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{db}_#{Rails.env}")
+    
+    query_str = "SELECT COUNT(taxon_concepts.id) FROM taxon_concepts
+                 WHERE (#{species_id} IS NULL OR taxon_concepts.id=#{species_id})
+                 AND (#{species_name} IS NULL OR scientificName like #{species_name})
+                 AND (taxon_status_id=#{phase_id} and state_id=0);"
+    connection.execute(query_str).first[0]
+  end
+  
+  def self.Select_taxon_concepts_ForTranslation_FromPool(db, user_id, speciesID, speciesName,
+                                                         translationStatus, phase_id, page)
+    species_id = speciesID.nil? || speciesID == "" ?  'NULL' : speciesID
+    species_name = speciesName.nil? || speciesName == "" ?  'NULL' : speciesName
+    TaxonConcept.establish_connection(:adapter  => "mysql2",
+                                      :host     => "localhost",
+                                      :username => "root",
+                                      :password => "root",
+                                      :database => "#{db}_#{Rails.env}")
+                                      
+    query_str = "SELECT priorities.label as priority, taxon_concepts.* FROM taxon_concepts
+                 inner join selection_batches on selection_batches.id=selection_id
+                 inner join priorities on priorities.id=priority_id
+                 WHERE (#{species_id} IS NULL OR taxon_concepts.id=#{species_id})
+                 AND (#{species_name} IS NULL OR scientificName like #{species_name})
+                 AND ( taxon_status_id=#{phase_id} and state_id=0)
+                 ORDER BY sort_order, scientificName;"
+    
+    find_by_sql(query_str).paginate(:page => page, :per_page => ITEMS_PER_PAGE)
   end
   
   

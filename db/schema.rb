@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140924072333) do
+ActiveRecord::Schema.define(:version => 20140928122100) do
 
   create_table "Unique_DO", :id => false, :force => true do |t|
     t.integer "data_object_id", :null => false
@@ -215,7 +215,7 @@ ActiveRecord::Schema.define(:version => 20140924072333) do
     t.integer  "priority_id",                     :default => 3
   end
 
-  create_table "status", :force => true do |t|
+  create_table "statuses", :force => true do |t|
     t.string  "label",             :limit => 45, :default => "",    :null => false
     t.boolean "directly_assigned",               :default => false, :null => false
   end
@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(:version => 20140924072333) do
     t.datetime "selection_date"
     t.datetime "publish_date"
     t.boolean  "taxon_update",                                    :null => false
+    t.integer  "state_id",                       :default => 0
   end
 
   add_index "taxon_concepts", ["published"], :name => "published"
@@ -341,7 +342,7 @@ ActiveRecord::Schema.define(:version => 20140924072333) do
     t.integer "it_admin",    :limit => 1,   :default => 0
   end
 
-  create_table "users_status", :force => true do |t|
+  create_table "users_statuses", :force => true do |t|
     t.integer "user_id",   :null => false
     t.integer "status_id", :null => false
   end

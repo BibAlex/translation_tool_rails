@@ -20,7 +20,7 @@
                                                                          :trstatus => PENDING, :phase => params[:phase]},
                                                                          {:style => pending_tab_style} 
               %li.toc
-                - completed_tab_style = params[:trstatus] == COMPLETED.to_i ? I18n.t(:active_table_of_content_style) : ""
+                - completed_tab_style = params[:trstatus] == COMPLETED ? I18n.t(:active_table_of_content_style) : ""
                 = link_to "#{I18n.t(:translation_tab_completed_species)}",{:controller => :phases, :action => :species,
                                                                            :trstatus => COMPLETED, :phase => params[:phase]},
                                                                          {:style => completed_tab_style} 

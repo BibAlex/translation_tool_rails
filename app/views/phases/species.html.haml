@@ -5,11 +5,11 @@
   }
 
 
-%form#frm{:action => "species", :name => "frm",
-          :id => "frm"}
+%form#frm{:action => "species", :name => "frm", :id => "frm"}
   .form
     %h2
-      = "#{@total_items} #{I18n.t(:phase_pending_species)}"
+      - title = get_phase_title(params[:trstatus])
+      = "#{@total_items} #{title}"
     %div{:style => "border:1px solid #C6C6C6; border-top:none;"}
       %input{:name => "phase", :type => "hidden", :value => "#{params[:phase]}"}
       %input{:name => "trstatus", :type => "hidden", :value => "#{params[:trstatus]}"}
