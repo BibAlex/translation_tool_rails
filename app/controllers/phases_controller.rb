@@ -11,7 +11,7 @@ class PhasesController < ApplicationController
     @taxons_concepts = TaxonConcept.Select_taxon_concepts_ForTranslation_FromPool(SLAVE,session[:user_id],params[:spid],
                                                              params[:spname],params[:trstatus],
                                                              params[:phase], params[:page])
-    if params[:pickedID]
+    unless params[:pickedID].nil? || params[:pickedID] == ""
       TaxonConcept.Update_taxon_concepts_TranslationStatus(params[:pickedID]);
       TaxonConcept.taxon_concept_assign_log(params[:pickedID], session[:user_id], params[:phase], session[:user_id])
       @taxons_concepts = TaxonConcept.Select_taxon_concepts_ForTranslation_FromPool(SLAVE,session[:user_id],params[:spid],
